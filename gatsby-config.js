@@ -61,9 +61,5 @@ module.exports = {
       resolve: `gatsby-plugin-netlify-cms`,
       options: {},
     },
-    {
-      resolve: `gatsby-plugin-react-helmet`,
-      options: {},
-    },
   ],
 };
