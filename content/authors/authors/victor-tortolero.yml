@@ -1,0 +1,7 @@
+- name: Victor Tortolero
+  bio: |
+    Frontend engineer, passionate about Design Systems.
+  avatar: ./avatars/victor-tortolero.jpg
+  featured: true
+  social:
+    - url: https://github.com
