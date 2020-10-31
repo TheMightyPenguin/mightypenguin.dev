@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 
+import Text from '../components/Text/Text';
+
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
 
@@ -27,17 +29,17 @@ const Home = () => {
         </span>
       </div>
 
-      <div
+      <Text
+        size="large"
         style={{
           position: "relative",
-          top: "-8px",
-          fontSize: "20px",
+          top: "-26px",
           fontFamily: "monospace",
           letterSpacing: "1px",
         }}
       >
         TheMightyPenguin
-      </div>
+      </Text>
 
       <div
         style={{
