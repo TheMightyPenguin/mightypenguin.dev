@@ -33,7 +33,7 @@ const Home = () => {
         size="large"
         style={{
           position: "relative",
-          top: "-26px",
+          top: "-10px",
           fontFamily: "monospace",
           letterSpacing: "1px",
         }}
