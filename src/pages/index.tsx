@@ -1,7 +1,8 @@
+import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import Text from '../components/Text/Text';
+import Text from "../components/Text/Text";
 
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
@@ -32,7 +33,7 @@ const Home = () => {
         style={{
           position: "relative",
           top: "-10px",
-          fontFamily: "monospace",
+          fontFamily: "'Major Mono Display', monospace;",
           letterSpacing: "1px",
         }}
       >
@@ -42,10 +43,10 @@ const Home = () => {
       <div
         style={{
           marginTop: "1.5rem",
-          fontFamily: "monospace",
+          fontFamily: "'Major Mono Display', monospace",
           fontSize: "16px",
-          display: 'flex',
-          gap: '16px',
+          display: "flex",
+          gap: "16px",
         }}
       >
         <Link href="/igloo">
@@ -60,4 +61,3 @@ const Home = () => {
 };
 
 export default Home;
-

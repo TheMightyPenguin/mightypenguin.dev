@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/get-dotfiles",
+      "destination": "https://raw.githubusercontent.com/TheMightyPenguin/dotfiles/master/init.sh"
+    }
+  ]
+}

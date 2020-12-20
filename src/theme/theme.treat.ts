@@ -1,10 +1,6 @@
 import { createTheme } from "treat";
+import theme from "./theme";
 
-const theme = createTheme({
-  space: {
-    small: 4,
-    large: 12,
-  },
-});
+const threatTheme = createTheme(theme);
 
-export default theme;
+export default threatTheme;

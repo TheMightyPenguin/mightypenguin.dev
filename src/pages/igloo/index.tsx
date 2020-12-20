@@ -1,12 +1,19 @@
-import fs from 'fs'
-import path from 'path'
+import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
+
+import Text from "../../components/Text/Text";
 
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
 
-const Igloo = () => {
+type Props = {
+  links: { href: string }[];
+};
+
+const Igloo: React.FC<Props> = ({ links }) => {
   return (
     <div
       style={{
@@ -21,20 +28,30 @@ const Igloo = () => {
         <link rel="icon" href={generateEmojiFavicon("❄ igloo")} />
       </Head>
 
+      <Text
+        size="large"
+        style={{
+          position: "relative",
+          top: "-10px",
+          fontFamily: "'Major Mono Display', monospace;",
+          letterSpacing: "1px",
+        }}
+      >
+        Igloo
+      </Text>
+
       <div
         style={{
           marginTop: "1.5rem",
           fontFamily: "monospace",
           fontSize: "16px",
-          display: 'flex',
-          gap: '16px',
+          display: "flex",
+          gap: "16px",
         }}
       >
-        {[].map(({ href, label }) => (
-          <Link key={href} href={href}>
-            <a>
-              {label}
-            </a>
+        {links.map(({ href }) => (
+          <Link key={href} href={`/igloo/${href}`}>
+            <a>{href}</a>
           </Link>
         ))}
       </div>
@@ -42,29 +59,25 @@ const Igloo = () => {
   );
 };
 
-export function getServerSideProps() {
-  const postsDirectory = path.join(process.cwd())
-  const filenames = fs.readdirSync(postsDirectory)
+export async function getServerSideProps() {
+  const filesDirectory = path.join(process.cwd(), "src/pages/igloo");
+  const filenames = fs
+    .readdirSync(filesDirectory)
+    .filter((filename) => filename !== "index.tsx");
 
   const links = filenames.map((filename) => {
-    const filePath = path.join(postsDirectory, filename)
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-
-    // Generally you would parse/transform the contents
-    // For example you can transform markdown to HTML here
-
     return {
-      filename,
-      content: fileContents,
-    }
-  })
+      href: filename.replace(/\.tsx/, ""),
+    };
+  });
+
+  console.log({ links });
 
   return {
     props: {
-      links
-    }
+      links,
+    },
   };
 }
 
 export default Igloo;
-
