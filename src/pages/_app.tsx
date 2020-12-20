@@ -1,9 +1,10 @@
+import type { AppProps  } from 'next/app'
 import Head from "next/head";
 
 import "../styles/globals.css";
 import ThemeProvider from "../theme/ThemeProvider";
 
-function App({ Component, pageProps }) {
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider>
       <Head>
