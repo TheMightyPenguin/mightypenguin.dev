@@ -81,7 +81,7 @@ const DayOneTrivia = React.memo(() => {
   const [showMessage, toggleMessage] = useToggle();
   const [showError, toggleError] = useToggle();
 
-  const onSubmit = (e) => {
+  const onSubmit: React.ComponentProps<'form'>['onSubmit'] = (e) => {
     e.preventDefault();
     if (inputValue.current.toLowerCase() === 'lara & luca') {
       toggleMessage(true);
