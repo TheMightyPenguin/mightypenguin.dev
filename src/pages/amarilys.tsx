@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import countdown from 'countdown';
-import { addSeconds } from 'date-fns/fp'
+import { addSeconds, compareDesc } from 'date-fns/fp'
 
 import useToggle from '../hooks/useToggle';
 
@@ -10,9 +10,13 @@ const generateEmojiFavicon = (emoji: string) =>
 
 const targetDate = new Date(2020, 11, 23, 0, 0);
 
-function useTimer() {
-  const [today, setToday] = useState(() => new Date());
-  const dateDiff = countdown(today, targetDate).toString();
+const hasDatePassed = (date1: Date, date2: Date) => {
+  return compareDesc(date1, date2) >= 0;
+}
+
+function useTimer(initial: Date, target: Date) {
+  const [currentDate, setToday] = useState(initial);
+  const dateDiff = countdown(currentDate, target).toString();
 
   useEffect(() => {
     const timeoutId = window.setInterval(() => {
@@ -23,13 +27,41 @@ function useTimer() {
     }
   }, []);
 
-  return { timeLeftMessage: dateDiff }
+  console.log({currentDate, target})
+
+  return { timeLeftMessage: dateDiff, hasPassed: hasDatePassed(currentDate, target) }
 }
 
 
+const ScheduleItem = ({ label, time, title, description, date }: any) => {
+  const { timeLeftMessage, hasPassed } = useTimer(new Date(), date);
+
+  if (!hasPassed) {
+    return (
+      <div style={{ textAlign: 'center', fontSize: '18px', color: '#495D63' }}>{timeLeftMessage}</div>
+    )
+  }
+  
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div style={{ textAlign: 'center', color: '#D7BCC8', fontWeight: 'bold' }}>
+        {label} {time} 🕐
+      </div>
+      <div style={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>{title}</div>
+      {description ? <div style={{ textAlign: 'center', color: '#495D63', fontSize: '14px' }}>{description}</div> : null}
+    </div>
+  );
+}
+
+const Separator = () => {
+  return (
+    <div style={{ backgroundColor: '#FAC8CD', height: '2px', borderRadius: '4px'}} />
+  )
+}
+
 
 const Page: React.FC = () => {
-  const { timeLeftMessage } = useTimer();
+  const { timeLeftMessage, hasPassed } = useTimer(new Date(), targetDate);
   const [showTrivia, toggleTrivia] = useToggle();
 
   return (
@@ -52,22 +84,33 @@ const Page: React.FC = () => {
             padding: "16px",
           }}
         >
+          {hasPassed ? ( 
+            <p style={{ fontSize: "42px", textAlign: 'center', marginBottom: '16px' }}>
+              Feliz Cumpleaños Boo!! 🎉🍰🦄
+            </p>
+          ) : (
+            <p style={{ fontSize: "42px", textAlign: 'center', marginBottom: '16px' }}>
+              {timeLeftMessage}
+            </p>
+          )}
           <div
             style={{
               border: "4px solid black",
-              padding: "16px",
-              minWidth: "300px",
+              padding: "12px",
+              paddingTop: "24px",
+              paddingBottom: "24px",
+              width: "320px",
+              margin: '0 auto'
             }}
           >
-            <p style={{ fontSize: "42px", textAlign: 'center' }}>
-              {timeLeftMessage}
-            </p>
-            <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              {showTrivia ? (
-                <DayOneTrivia />
-              ) : (
-                <p style={{ fontSize: "30px", textAlign: 'center' }} onClick={() => toggleTrivia(undefined)}>✨</p>
-              )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px'}}>
+              <ScheduleItem date={new Date(2020, 11, 22, 15, 30)} label="⛰" time="8:00am" title="Aventuras en la barranca de huentitan" description="Desayuno: Panini de carnes frias" />
+              <Separator />
+              <ScheduleItem date={new Date(2020, 11, 22, 19)} label="🧖🏻‍♀️" time="12:00pm" title="Relax time en kinal spa" />
+              <Separator />
+              <ScheduleItem date={new Date(2020, 11, 22, 21)} label="🇰🇷" time="4:00pm" title="Maraton de Crash landing on you" description="Snack: Postre de la postreria" />
+              <Separator />
+              <ScheduleItem date={new Date(2020, 11, 23, 0, 0)} label="🍝" time="8:00pm" title="Cena en Napoles" />
             </div>
           </div>
         </div>
