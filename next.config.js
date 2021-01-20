@@ -1,3 +1,3 @@
-const withTreat = require("next-treat")();
+const withTreat = require('next-treat')();
 
 module.exports = withTreat();

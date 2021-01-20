@@ -1,6 +1,5 @@
-import { styleMap, style } from "treat";
-
-import capsize from "capsize";
+import capsize from 'capsize';
+import { style, styleMap } from 'treat';
 
 const fontMetrics = {
   majorMono: {

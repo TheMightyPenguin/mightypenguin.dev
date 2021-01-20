@@ -1,5 +1,6 @@
-import { createTheme } from "treat";
-import theme from "./theme";
+import { createTheme } from 'treat';
+
+import theme from './theme';
 
 const threatTheme = createTheme(theme);
 

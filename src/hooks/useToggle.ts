@@ -1,12 +1,15 @@
-import { useReducer, Reducer } from 'react';
+import { Reducer, useReducer } from 'react';
 
-const reducer: Reducer<boolean, boolean | undefined> = (currentValue, overrideValue?: boolean) => {
+const reducer: Reducer<boolean, boolean | undefined> = (
+  currentValue,
+  overrideValue?: boolean,
+) => {
   if (typeof overrideValue !== 'undefined') {
     return overrideValue;
   }
   return !currentValue;
-}
-export function useToggle(initialValue: boolean = false) {
+};
+export function useToggle(initialValue = false) {
   return useReducer(reducer, initialValue);
 }
 

@@ -1,4 +1,4 @@
-import { styleMap, style } from "treat";
+import { style, styleMap } from 'treat';
 
 export const reset = style({
   margin: 0,

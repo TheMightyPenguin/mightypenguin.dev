@@ -1,10 +1,10 @@
-import React from "react";
-import Head from "next/head";
-import Link from "next/link";
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import Head from 'next/head';
+import Link from 'next/link';
+import path from 'path';
+import React from 'react';
 
-import Text from "../../components/Text/Text";
+import Text from '../../components/Text/Text';
 
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
@@ -17,24 +17,24 @@ const Igloo: React.FC<Props> = ({ links }) => {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        height: "100vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        height: '100vh',
       }}
     >
       <Head>
-        <link rel="icon" href={generateEmojiFavicon("❄ igloo")} />
+        <link rel="icon" href={generateEmojiFavicon('❄ igloo')} />
       </Head>
 
       <Text
         size="large"
         style={{
-          position: "relative",
-          top: "-10px",
+          position: 'relative',
+          top: '-10px',
           fontFamily: "'Major Mono Display', monospace;",
-          letterSpacing: "1px",
+          letterSpacing: '1px',
         }}
       >
         Igloo
@@ -42,11 +42,11 @@ const Igloo: React.FC<Props> = ({ links }) => {
 
       <div
         style={{
-          marginTop: "1.5rem",
-          fontFamily: "monospace",
-          fontSize: "16px",
-          display: "flex",
-          gap: "16px",
+          marginTop: '1.5rem',
+          fontFamily: 'monospace',
+          fontSize: '16px',
+          display: 'flex',
+          gap: '16px',
         }}
       >
         {links.map(({ href }) => (
@@ -60,14 +60,14 @@ const Igloo: React.FC<Props> = ({ links }) => {
 };
 
 export async function getServerSideProps() {
-  const filesDirectory = path.join(process.cwd(), "src/pages/igloo");
+  const filesDirectory = path.join(process.cwd(), 'src/pages/igloo');
   const filenames = fs
     .readdirSync(filesDirectory)
-    .filter((filename) => filename !== "index.tsx");
+    .filter((filename) => filename !== 'index.tsx');
 
   const links = filenames.map((filename) => {
     return {
-      href: filename.replace(/\.tsx/, ""),
+      href: filename.replace(/\.tsx/, ''),
     };
   });
 

@@ -1,8 +1,9 @@
-import type { AppProps  } from 'next/app'
-import Head from "next/head";
+import '../styles/globals.css';
 
-import "../styles/globals.css";
-import ThemeProvider from "../theme/ThemeProvider";
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+
+import ThemeProvider from '../theme/ThemeProvider';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -21,6 +22,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       <Component {...pageProps} />;
     </ThemeProvider>
   );
-}
+};
 
 export default App;

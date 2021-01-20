@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 const renderAnimation = (canvas: HTMLCanvasElement) => {
   let keepRunning = true;
@@ -26,7 +26,7 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
 
   return () => {
     keepRunning = false;
-  }
+  };
 };
 
 const Particles = () => {
@@ -41,12 +41,14 @@ const Particles = () => {
 
     return () => {
       unsubscribe();
-    }
+    };
   }, [canvasRef]);
 
-  return <div>
-    <canvas ref={canvasRef} />
-  </div>;
+  return (
+    <div>
+      <canvas ref={canvasRef} />
+    </div>
+  );
 };
 
 export default Particles;
