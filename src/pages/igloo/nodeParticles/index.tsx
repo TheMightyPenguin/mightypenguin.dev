@@ -1,22 +1,31 @@
 import React, { useEffect, useRef } from 'react';
 
+import { getInitialState, renderFrame } from '../../../canvas/nodeParticles';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
 const renderAnimation = (canvas: HTMLCanvasElement) => {
   let keepRunning = true;
-
+  const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const ctx = canvas.getContext('2d');
-
   if (!ctx) {
-    return () => {};
+    return noop;
   }
 
+  const state = getInitialState();
+
+  const mouseMoveHandler = (event: MouseEvent) => {
+    state.mouse.x = event.offsetX;
+    state.mouse.y = event.offsetY;
+  };
+
+  canvas.addEventListener('mousemove', mouseMoveHandler);
+
   const update = () => {
-    ctx.fillStyle = 'black';
-
-    ctx.fillRect(0, 0, window.innerHeight, window.innerHeight);
-
+    renderFrame(ctx, state);
     if (keepRunning) {
       window.requestAnimationFrame(update);
     }
@@ -26,6 +35,7 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
 
   return () => {
     keepRunning = false;
+    canvas.removeEventListener('mousemove', mouseMoveHandler);
   };
 };
 

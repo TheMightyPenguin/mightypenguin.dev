@@ -71,8 +71,6 @@ export async function getServerSideProps() {
     };
   });
 
-  console.log({ links });
-
   return {
     props: {
       links,

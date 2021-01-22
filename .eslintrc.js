@@ -34,6 +34,7 @@ module.exports = {
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     'sort-imports': 'off',
     'import/order': 'off',
     'simple-import-sort/imports': 'error',
