@@ -75,21 +75,14 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
 };
 
 const getClosestNodes = (node: Point, allNodes: Point[], closest = 5) => {
-  const connected: Point[] = [];
-
-  for (const otherNode of allNodes) {
-    if (node === otherNode) {
-      continue;
-    }
-
-    const distance = getDistance(node, otherNode);
-
-    if (connected.length < closest) {
-      connected.push(otherNode);
-    }
-  }
-
-  return connected;
+  return [...allNodes]
+    .filter((otherNode) => otherNode !== node)
+    .sort((a, b) => {
+      const aToNode = getDistance(a, node);
+      const bToNode = getDistance(b, node);
+      return aToNode - bToNode;
+    })
+    .slice(0, closest);
 };
 
 function getRandomInRange(min: number, max: number) {
