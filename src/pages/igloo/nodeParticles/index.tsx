@@ -23,7 +23,7 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
   };
 
   const touchMoveHandler = (event: TouchEvent) => {
-    const touch = event.touches.item(1);
+    const touch = event.touches.item(0);
     event.preventDefault();
 
     if (!touch) {
