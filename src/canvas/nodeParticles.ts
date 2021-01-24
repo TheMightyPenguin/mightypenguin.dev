@@ -27,10 +27,6 @@ type State = {
 const BACKGROUND_COLOR = '#FFFFFF';
 const getVertexColor = (alpha: number) => `rgba(0, 0, 0, ${alpha})`;
 
-const getPathId = (a: Node, b: Node) => {
-  return `${a.id}-->${b.id}`;
-};
-
 const getDistance = (p1: Point, p2: Point) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 };
@@ -176,6 +172,7 @@ const getInitialState = (): State => {
   });
 
   return {
+    // @ts-ignore
     nodes,
     mouse: { x: 0, y: 0 },
   };
