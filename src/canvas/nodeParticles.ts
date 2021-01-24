@@ -72,7 +72,7 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
         }
         ctx.save();
         ctx.beginPath();
-        context.translate(0.5, 0.5);
+        ctx.translate(0.5, 0.5);
         ctx.strokeStyle = getVertexColor(luminance);
         ctx.moveTo(node.currentPosition.x, node.currentPosition.y);
         ctx.lineTo(otherNode.currentPosition.x, otherNode.currentPosition.y);
