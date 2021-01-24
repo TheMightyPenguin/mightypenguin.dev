@@ -12,12 +12,14 @@ type Node = {
   startPosition: Point;
   movementRadius: number;
   movementProgress: number;
+  speed: number;
   targetPosition: Point;
   connected: Node[];
 };
 
 type State = {
   nodes: Array<Node>;
+  scale: number;
   mouse: {
     x: number;
     y: number;
@@ -37,7 +39,7 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
   ctx.fillStyle = BACKGROUND_COLOR;
   ctx.fillRect(0, 0, document.body.clientWidth, document.body.clientHeight);
 
-  const { nodes, mouse } = state;
+  const { nodes, mouse, scale } = state;
 
   // @ts-ignore
   const closestNode: Node = nodes.reduce(
@@ -56,6 +58,16 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
   for (const node of nodes) {
     const isClosestNode = node === closestNode;
 
+    // ctx.save();
+    // ctx.fillStyle = 'green';
+    // ctx.fillRect(
+    //   node.currentPosition.x / scale,
+    //   node.currentPosition.y / scale,
+    //   5 / scale,
+    //   5 / scale,
+    // );
+    // ctx.restore();
+
     if (!isClosestNode) {
       continue;
     }
@@ -71,12 +83,21 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
           continue;
         }
         ctx.save();
-        ctx.beginPath();
-        ctx.translate(0.5, 0.5);
-        ctx.strokeStyle = getVertexColor(luminance);
-        ctx.moveTo(node.currentPosition.x, node.currentPosition.y);
-        ctx.lineTo(otherNode.currentPosition.x, otherNode.currentPosition.y);
-        ctx.stroke();
+        const iterations = 15;
+        for (let i = 0; i < iterations; i++) {
+          ctx.beginPath();
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = getVertexColor(luminance / iterations);
+          ctx.moveTo(
+            node.currentPosition.x / scale,
+            node.currentPosition.y / scale,
+          );
+          ctx.lineTo(
+            otherNode.currentPosition.x / scale,
+            otherNode.currentPosition.y / scale,
+          );
+          ctx.stroke();
+        }
         ctx.restore();
         paintConnectedNodeLines(otherNode, luminance / 3);
       }
@@ -94,7 +115,7 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
       );
       node.movementProgress = 0;
     } else {
-      node.movementProgress += 0.004;
+      node.movementProgress += node.speed;
       node.currentPosition.x = lerp(
         node.startPosition.x,
         node.targetPosition.x,
@@ -149,10 +170,11 @@ const getRandomNodes = (quantity = 300) => {
     .map(() => {
       const x = getRandomInRange(20, window.innerWidth - 20);
       const y = getRandomInRange(20, window.innerHeight - 20);
-      const movementRadius = 40;
+      const movementRadius = 80;
       return {
         id: uuidv4(),
         movementRadius,
+        speed: 0.001,
         currentPosition: { x, y },
         startPosition: { x, y },
         movementProgress: 0,
@@ -165,7 +187,7 @@ const getRandomNodes = (quantity = 300) => {
     });
 };
 
-const getInitialState = (): State => {
+const getInitialState = (scale: number): State => {
   const nodes = getRandomNodes().map((node, _index, collection) => {
     // @ts-ignore
     node.connected = getClosestNodes(node, collection);
@@ -175,6 +197,7 @@ const getInitialState = (): State => {
   return {
     // @ts-ignore
     nodes,
+    scale,
     mouse: { x: 0, y: 0 },
   };
 };
