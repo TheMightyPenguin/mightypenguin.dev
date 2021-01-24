@@ -24,6 +24,7 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
 
   const touchMoveHandler = (event: TouchEvent) => {
     const touch = event.touches.item(1);
+    event.preventDefault();
 
     if (!touch) {
       return;
