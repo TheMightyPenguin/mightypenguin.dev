@@ -22,7 +22,19 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
     state.mouse.y = event.offsetY;
   };
 
+  const touchMoveHandler = (event: TouchEvent) => {
+    const touch = event.touches.item(1);
+
+    if (!touch) {
+      return;
+    }
+
+    state.mouse.x = touch.clientX;
+    state.mouse.y = touch.clientY;
+  };
+
   canvas.addEventListener('mousemove', mouseMoveHandler);
+  canvas.addEventListener('touchmove', touchMoveHandler);
 
   const update = () => {
     renderFrame(ctx, state);
@@ -36,6 +48,7 @@ const renderAnimation = (canvas: HTMLCanvasElement) => {
   return () => {
     keepRunning = false;
     canvas.removeEventListener('mousemove', mouseMoveHandler);
+    canvas.removeEventListener('touchmove', touchMoveHandler);
   };
 };
 
@@ -55,7 +68,7 @@ const Particles = () => {
   }, [canvasRef]);
 
   return (
-    <div>
+    <div style={{ width: '100vw', height: '100vh' }}>
       <canvas ref={canvasRef} />
     </div>
   );
