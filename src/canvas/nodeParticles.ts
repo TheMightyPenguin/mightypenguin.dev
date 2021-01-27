@@ -19,15 +19,14 @@ type Node = {
 
 type State = {
   nodes: Array<Node>;
-  scale: number;
   mouse: {
     x: number;
     y: number;
   };
 };
 
-const BACKGROUND_COLOR = '#FFFFFF';
-const getVertexColor = (alpha: number) => `rgba(0, 0, 0, ${alpha})`;
+const BACKGROUND_COLOR = '#000000';
+const getVertexColor = (alpha: number) => `rgba(207, 52, 173, ${alpha})`;
 
 const getDistance = (p1: Point, p2: Point) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -39,7 +38,7 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
   ctx.fillStyle = BACKGROUND_COLOR;
   ctx.fillRect(0, 0, document.body.clientWidth, document.body.clientHeight);
 
-  const { nodes, mouse, scale } = state;
+  const { nodes, mouse } = state;
 
   // @ts-ignore
   const closestNode: Node = nodes.reduce(
@@ -58,16 +57,6 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
   for (const node of nodes) {
     const isClosestNode = node === closestNode;
 
-    // ctx.save();
-    // ctx.fillStyle = 'green';
-    // ctx.fillRect(
-    //   node.currentPosition.x / scale,
-    //   node.currentPosition.y / scale,
-    //   5 / scale,
-    //   5 / scale,
-    // );
-    // ctx.restore();
-
     if (!isClosestNode) {
       continue;
     }
@@ -82,28 +71,19 @@ const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
         if (isSameNode(otherNode)) {
           continue;
         }
-        ctx.save();
-        const iterations = 15;
-        for (let i = 0; i < iterations; i++) {
-          ctx.beginPath();
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = getVertexColor(luminance / iterations);
-          ctx.moveTo(
-            node.currentPosition.x / scale,
-            node.currentPosition.y / scale,
-          );
-          ctx.lineTo(
-            otherNode.currentPosition.x / scale,
-            otherNode.currentPosition.y / scale,
-          );
-          ctx.stroke();
-        }
-        ctx.restore();
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = getVertexColor(luminance);
+        ctx.moveTo(node.currentPosition.x, node.currentPosition.y);
+        ctx.lineTo(otherNode.currentPosition.x, otherNode.currentPosition.y);
+        ctx.stroke();
         paintConnectedNodeLines(otherNode, luminance / 3);
       }
     };
 
+    ctx.save();
     paintConnectedNodeLines(node);
+    ctx.restore();
   }
 
   for (const node of nodes) {
@@ -164,7 +144,7 @@ const getTargetPosition = (origin: Point, movementRadius: number) => {
   };
 };
 
-const getRandomNodes = (quantity = 300) => {
+const getRandomNodes = (quantity: number) => {
   return Array.from({ length: quantity })
     .fill(undefined)
     .map(() => {
@@ -187,17 +167,24 @@ const getRandomNodes = (quantity = 300) => {
     });
 };
 
-const getInitialState = (scale: number): State => {
-  const nodes = getRandomNodes().map((node, _index, collection) => {
-    // @ts-ignore
-    node.connected = getClosestNodes(node, collection);
-    return node;
-  });
+export type Config = {
+  particleCount: number;
+};
+
+const getInitialState = ({
+  particleCount = 150,
+}: Partial<Config> = {}): State => {
+  const nodes = getRandomNodes(particleCount).map(
+    (node, _index, collection) => {
+      // @ts-ignore
+      node.connected = getClosestNodes(node, collection);
+      return node;
+    },
+  );
 
   return {
     // @ts-ignore
     nodes,
-    scale,
     mouse: { x: 0, y: 0 },
   };
 };

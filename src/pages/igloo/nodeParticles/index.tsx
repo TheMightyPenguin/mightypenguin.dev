@@ -9,7 +9,7 @@ const noop = () => {};
 
 const renderAnimation = (
   canvas: HTMLCanvasElement,
-  config: { scale: number; particleCount: number },
+  config: { particleCount: number },
 ) => {
   let keepRunning = true;
   const ctx = canvas.getContext('2d');
@@ -20,7 +20,7 @@ const renderAnimation = (
     return noop;
   }
 
-  const state = getInitialState(config.scale);
+  const state = getInitialState(config);
 
   const mouseMoveHandler = (event: MouseEvent) => {
     state.mouse.x = event.offsetX;
@@ -61,13 +61,9 @@ const renderAnimation = (
 const config = {
   mobile: {
     particleCount: 150,
-    scale: 1,
-    lineWidth: 1,
   },
   desktop: {
     particleCount: 300,
-    scale: 1,
-    lineWidth: 1,
   },
 };
 
@@ -106,13 +102,7 @@ const Particles = () => {
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <canvas
-        ref={canvasRef}
-        style={{
-          transform: `scale3D(${canvasConfig.scale}, ${canvasConfig.scale}, ${canvasConfig.scale})`,
-          transformOrigin: '0 0',
-        }}
-      />
+      <canvas ref={canvasRef} />
     </div>
   );
 };

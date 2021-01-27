@@ -33,7 +33,7 @@ const Igloo: React.FC<Props> = ({ links }) => {
         style={{
           position: 'relative',
           top: '-10px',
-          fontFamily: "'Major Mono Display', monospace;",
+          fontFamily: "'Major Mono Display', monospace",
           letterSpacing: '1px',
         }}
       >
