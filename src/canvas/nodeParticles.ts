@@ -1,3 +1,5 @@
+import { startOfWeek } from 'date-fns';
+import p5 from 'p5';
 import { v4 as uuidv4 } from 'uuid';
 
 type Point = {
@@ -25,8 +27,8 @@ type State = {
   };
 };
 
-const BACKGROUND_COLOR = '#000000';
-const getVertexColor = (alpha: number) => `rgba(207, 52, 173, ${alpha})`;
+const BACKGROUND_COLOR = '#FFFFFF';
+const getVertexColor = (alpha: number) => `rgba(0, 0, 0, ${alpha})`;
 
 const getDistance = (p1: Point, p2: Point) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -34,80 +36,89 @@ const getDistance = (p1: Point, p2: Point) => {
 
 const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
 
-const renderFrame = (ctx: CanvasRenderingContext2D, state: State) => {
-  ctx.fillStyle = BACKGROUND_COLOR;
-  ctx.fillRect(0, 0, document.body.clientWidth, document.body.clientHeight);
+const sketch = (p: p5) => {
+  let state: State;
 
-  const { nodes, mouse } = state;
+  p.setup = () => {
+    p.createCanvas(window.innerWidth, window.innerHeight);
+    state = getInitialState();
+    console.log({ state });
+  };
 
-  // @ts-ignore
-  const closestNode: Node = nodes.reduce(
-    (closest, current) => {
-      const currentToMouse = getDistance(current.currentPosition, mouse);
-      const closestToMouse = getDistance(closest.currentPosition, mouse);
-      if (currentToMouse < closestToMouse) {
-        // @ts-ignore
-        closest = current;
-      }
-      return closest;
-    },
-    { currentPosition: { x: Infinity, y: Infinity } },
-  );
+  p.draw = () => {
+    p.background(BACKGROUND_COLOR);
 
-  for (const node of nodes) {
-    const isClosestNode = node === closestNode;
+    const { nodes } = state;
+    const mouse = { x: p.mouseX, y: p.mouseY };
 
-    if (!isClosestNode) {
-      continue;
-    }
-
-    const isSameNode = (otherNode: Node) => otherNode === node;
-
-    const paintConnectedNodeLines = (node: Node, luminance = 1) => {
-      if (luminance < 1 / 10) {
-        return;
-      }
-      for (const otherNode of node.connected) {
-        if (isSameNode(otherNode)) {
-          continue;
+    // @ts-ignore
+    const closestNode: Node = nodes.reduce(
+      (closest, current) => {
+        const currentToMouse = getDistance(current.currentPosition, mouse);
+        const closestToMouse = getDistance(closest.currentPosition, mouse);
+        if (currentToMouse < closestToMouse) {
+          // @ts-ignore
+          closest = current;
         }
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = getVertexColor(luminance);
-        ctx.moveTo(node.currentPosition.x, node.currentPosition.y);
-        ctx.lineTo(otherNode.currentPosition.x, otherNode.currentPosition.y);
-        ctx.stroke();
-        paintConnectedNodeLines(otherNode, luminance / 3);
+        return closest;
+      },
+      { currentPosition: { x: Infinity, y: Infinity } },
+    );
+
+    for (const node of nodes) {
+      const isClosestNode = node === closestNode;
+
+      if (!isClosestNode) {
+        continue;
       }
-    };
 
-    ctx.save();
-    paintConnectedNodeLines(node);
-    ctx.restore();
-  }
+      const isSameNode = (otherNode: Node) => otherNode === node;
 
-  for (const node of nodes) {
-    if (isPointEqualWithDelta(node.currentPosition, node.targetPosition)) {
-      node.startPosition = node.targetPosition;
-      node.targetPosition = getTargetPosition(
-        node.originalPosition,
-        node.movementRadius,
-      );
-      node.movementProgress = 0;
-    } else {
-      node.movementProgress += node.speed;
-      node.currentPosition.x = lerp(
-        node.startPosition.x,
-        node.targetPosition.x,
-        node.movementProgress,
-      );
-      node.currentPosition.y = lerp(
-        node.startPosition.y,
-        node.targetPosition.y,
-        node.movementProgress,
-      );
+      const paintConnectedNodeLines = (node: Node, luminance = 1) => {
+        if (luminance < 1 / 10) {
+          return;
+        }
+        for (const otherNode of node.connected) {
+          if (isSameNode(otherNode)) {
+            continue;
+          }
+          p.stroke(getVertexColor(luminance));
+          p.line(
+            node.currentPosition.x,
+            node.currentPosition.y,
+            otherNode.currentPosition.x,
+            otherNode.currentPosition.y,
+          );
+          paintConnectedNodeLines(otherNode, luminance / 3);
+        }
+      };
+
+      paintConnectedNodeLines(node);
     }
-  }
+
+    for (const node of nodes) {
+      if (isPointEqualWithDelta(node.currentPosition, node.targetPosition)) {
+        node.startPosition = node.targetPosition;
+        node.targetPosition = getTargetPosition(
+          node.originalPosition,
+          node.movementRadius,
+        );
+        node.movementProgress = 0;
+      } else {
+        node.movementProgress += node.speed;
+        node.currentPosition.x = lerp(
+          node.startPosition.x,
+          node.targetPosition.x,
+          node.movementProgress,
+        );
+        node.currentPosition.y = lerp(
+          node.startPosition.y,
+          node.targetPosition.y,
+          node.movementProgress,
+        );
+      }
+    }
+  };
 };
 
 const isPointEqualWithDelta = (a: Point, b: Point) => {
@@ -144,27 +155,34 @@ const getTargetPosition = (origin: Point, movementRadius: number) => {
   };
 };
 
-const getRandomNodes = (quantity: number) => {
+const getInitialPositions = (quantity: number) => {
   return Array.from({ length: quantity })
-    .fill(undefined)
+    .fill({ x: Infinity, y: Infinity })
     .map(() => {
-      const x = getRandomInRange(20, window.innerWidth - 20);
-      const y = getRandomInRange(20, window.innerHeight - 20);
-      const movementRadius = 80;
       return {
-        id: uuidv4(),
-        movementRadius,
-        speed: 0.001,
-        currentPosition: { x, y },
-        startPosition: { x, y },
-        movementProgress: 0,
-        targetPosition: getTargetPosition({ x, y }, movementRadius),
-        originalPosition: {
-          x,
-          y,
-        },
+        x: getRandomInRange(20, window.innerWidth - 20),
+        y: getRandomInRange(20, window.innerHeight - 20),
       };
     });
+};
+
+const getRandomNodes = (quantity: number) => {
+  return getInitialPositions(quantity).map(({ x, y }) => {
+    const movementRadius = 80;
+    return {
+      id: uuidv4(),
+      movementRadius,
+      speed: 0.001,
+      currentPosition: { x, y },
+      startPosition: { x, y },
+      movementProgress: 0,
+      targetPosition: getTargetPosition({ x, y }, movementRadius),
+      originalPosition: {
+        x,
+        y,
+      },
+    };
+  });
 };
 
 export type Config = {
@@ -189,4 +207,4 @@ const getInitialState = ({
   };
 };
 
-export { getInitialState, renderFrame };
+export { sketch };
