@@ -45,6 +45,11 @@ const sketch = (p: p5) => {
     console.log({ state });
   };
 
+  p.windowResized = () => {
+    p.resizeCanvas(window.innerWidth, window.innerHeight);
+    state = getInitialState();
+  };
+
   p.draw = () => {
     p.background(BACKGROUND_COLOR);
 
