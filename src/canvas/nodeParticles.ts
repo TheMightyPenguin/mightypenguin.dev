@@ -50,6 +50,11 @@ const sketch = (p: p5) => {
     state = getInitialState();
   };
 
+  // prevent default on touch to prevent scrolling
+  p.touchMoved = () => {
+    return false;
+  };
+
   p.draw = () => {
     p.background(BACKGROUND_COLOR);
 
