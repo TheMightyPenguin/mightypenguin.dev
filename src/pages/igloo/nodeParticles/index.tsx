@@ -1,42 +1,19 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { sketch } from '../../../canvas/nodeParticles';
 import { useHasMounted } from '../../../hooks/useHasMounted';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 
 const renderAnimation = async (container: HTMLDivElement) => {
   const p5 = (await import('p5')).default;
   return new p5(sketch, container);
 };
 
-const config = {
-  mobile: {
-    particleCount: 150,
-  },
-  desktop: {
-    particleCount: 300,
-  },
-};
-
 const Particles = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const dimensions = useWindowSize();
   const hasMounted = useHasMounted();
 
-  const canvasConfig = useMemo(() => {
-    if (!dimensions) {
-      return undefined;
-    }
-
-    if (dimensions.width > 1024) {
-      return config.desktop;
-    }
-
-    return config.mobile;
-  }, [dimensions]);
-
   useEffect(() => {
-    if (!containerRef.current || typeof canvasConfig === 'undefined') {
+    if (!containerRef.current) {
       return;
     }
 
@@ -49,7 +26,7 @@ const Particles = () => {
     };
   }, [containerRef, hasMounted]);
 
-  if (!hasMounted || typeof canvasConfig === 'undefined') {
+  if (!hasMounted) {
     return null;
   }
 
