@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
@@ -59,7 +60,7 @@ const Igloo: React.FC<Props> = ({ links }) => {
   );
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const filesDirectory = path.join(process.cwd(), 'src/pages/igloo');
   const filenames = fs
     .readdirSync(filesDirectory)
@@ -76,6 +77,6 @@ export async function getServerSideProps() {
       links,
     },
   };
-}
+};
 
 export default Igloo;

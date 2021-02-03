@@ -1,4 +1,3 @@
-import { startOfWeek } from 'date-fns';
 import p5 from 'p5';
 import { v4 as uuidv4 } from 'uuid';
 
