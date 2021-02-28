@@ -1,12 +1,12 @@
 import p5 from 'p5';
 import { v4 as uuidv4 } from 'uuid';
 
-type Point = {
+export type Point = {
   x: number;
   y: number;
 };
 
-type Node = {
+export type Node = {
   id: string;
   currentPosition: Point;
   originalPosition: Point;
@@ -18,18 +18,14 @@ type Node = {
   connected: Node[];
 };
 
-type State = {
+export type State = {
   nodes: Array<Node>;
-  mouse: {
-    x: number;
-    y: number;
-  };
 };
 
 const BACKGROUND_COLOR = '#FFFFFF';
 const getVertexColor = (alpha: number) => `rgba(0, 0, 0, ${alpha})`;
 
-const SCREEN_BOUNDS = 20;
+const SCREEN_BOUNDS = 0;
 
 const getDistance = (p1: Point, p2: Point) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -53,19 +49,47 @@ const getConfig = (width: number) => {
   return config.mobile;
 };
 
-const sketch = (p: p5) => {
+type SketchDeviceConfiguration = {
+  particleCount: number;
+};
+
+export type SketchOptions = {
+  getInitialPositions?: (quantity: number) => Point[];
+  hideLines?: boolean;
+  stopParticles?: boolean;
+  width: 'full' | number;
+  height: 'full' | number;
+};
+
+const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   let state: State;
 
   p.setup = () => {
-    p.createCanvas(window.innerWidth, window.innerHeight);
+    const width =
+      sketchOptions.width === 'full'
+        ? document.body.clientWidth
+        : sketchOptions.width;
+    const height =
+      sketchOptions.height === 'full'
+        ? document.body.clientHeight
+        : sketchOptions.height;
+
+    p.createCanvas(width, height);
     const config = getConfig(p.width);
-    state = getInitialState(config);
+    state = getInitialState({ ...config, ...sketchOptions });
   };
 
   p.windowResized = () => {
-    p.resizeCanvas(window.innerWidth, window.innerHeight);
+    const width =
+      sketchOptions.width === 'full'
+        ? document.body.clientWidth
+        : sketchOptions.width;
+    const height =
+      sketchOptions.height === 'full' ? p.windowHeight : sketchOptions.height;
+
+    p.resizeCanvas(width, height);
     const config = getConfig(p.width);
-    state = getInitialState(config);
+    state = getInitialState({ ...config, ...sketchOptions });
   };
 
   // prevent default on touch to prevent scrolling
@@ -95,6 +119,12 @@ const sketch = (p: p5) => {
     for (const node of nodes) {
       const isClosestNode = node === closestNode;
 
+      if (sketchOptions.hideLines) {
+        p.fill('black');
+        p.circle(node.currentPosition.x, node.currentPosition.y, 2);
+        continue;
+      }
+
       if (!isClosestNode) {
         continue;
       }
@@ -121,6 +151,10 @@ const sketch = (p: p5) => {
       };
 
       paintConnectedNodeLines(node);
+    }
+
+    if (sketchOptions.stopParticles) {
+      return;
     }
 
     for (const node of nodes) {
@@ -212,7 +246,7 @@ const getRandomPoint = (): Point => ({
  * the idea is to approximate a Poisson-disc distribution
  * @see https://bost.ocks.org/mike/algorithms/
  */
-const getInitialPositions = (quantity: number) => {
+const poissonDistribution = (quantity: number) => {
   const positions: Array<Point> = [];
   const candidates = 20;
 
@@ -247,8 +281,8 @@ const getInitialPositions = (quantity: number) => {
   return positions;
 };
 
-const getRandomNodes = (quantity: number) => {
-  return getInitialPositions(quantity).map(({ x, y }) => {
+const getNodes = (points: Point[]) => {
+  return points.map(({ x, y }) => {
     const movementRadius = 20;
     return {
       id: uuidv4(),
@@ -266,14 +300,11 @@ const getRandomNodes = (quantity: number) => {
   });
 };
 
-export type Config = {
-  particleCount: number;
-};
-
-const getInitialState = ({
+export const getInitialState = ({
   particleCount = 150,
-}: Partial<Config> = {}): State => {
-  const nodes = getRandomNodes(particleCount).map(
+  getInitialPositions = poissonDistribution,
+}: Partial<SketchDeviceConfiguration & SketchOptions> = {}): State => {
+  const nodes = getNodes(getInitialPositions(particleCount)).map(
     (node, _index, collection) => {
       // @ts-ignore
       node.connected = getClosestNodes(node, collection);
@@ -284,7 +315,6 @@ const getInitialState = ({
   return {
     // @ts-ignore
     nodes,
-    mouse: { x: 0, y: 0 },
   };
 };
 

@@ -36,6 +36,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'sort-imports': 'off',
+    'react/display-name': 'off',
     'import/order': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',

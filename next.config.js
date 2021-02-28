@@ -17,10 +17,6 @@ module.exports = withPlugins([
     remarkPlugins: [images, emoji],
     rehypePlugins: [],
     usesSrc: false,
-    extendFrontMatter: {
-      process: (_mdxContent, _frontMatter) => {},
-      phase: 'both',
-    },
     reExportDataFetching: false,
   }),
   withTreat,

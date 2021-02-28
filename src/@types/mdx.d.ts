@@ -1,5 +1,6 @@
 declare module '@mdx-js/react' {
   import * as React from 'react';
+
   type ComponentType =
     | 'a'
     | 'blockquote'
@@ -25,14 +26,18 @@ declare module '@mdx-js/react' {
     | 'td'
     | 'thematicBreak'
     | 'tr'
-    | 'ul';
+    | 'ul'
+    | 'wrapper';
+
   export type Components = {
     [key in ComponentType]?: React.ComponentType<{ children: React.ReactNode }>;
   };
+
   export interface MDXProviderProps {
     children: React.ReactNode;
     components: Components;
   }
+
   export class MDXProvider extends React.Component<MDXProviderProps> {}
 }
 
@@ -42,6 +47,7 @@ declare module '*.mdx' {
     title: string;
     summary: string;
     publishedAt: string;
+    draft: boolean;
     __resourcePath: string;
   };
   export let frontMatter: FrontMatter[];

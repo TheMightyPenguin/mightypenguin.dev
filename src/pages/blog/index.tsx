@@ -12,7 +12,7 @@ const Blog: React.FC<Props> = () => {
     <div>
       <p>Blogs</p>
       {posts.map((post) => {
-        const href = post.__resourcePath.replace('mdx', '');
+        const href = post.__resourcePath.replace('.mdx', '');
         return (
           <Link key={post.title} href={href}>
             <a>{post.title}</a>
