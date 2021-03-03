@@ -1,10 +1,11 @@
 import { Components, MDXProvider } from '@mdx-js/react';
-import React, { Children, cloneElement, Fragment, isValidElement } from 'react';
+import React from 'react';
 
 import Stack from '../components/Stack/Stack';
 
 const mdxComponents: Components = {
-  h1: (props) => <h1 {...props} style={{ color: 'red' }} />,
+  // eslint-disable-next-line jsx-a11y/heading-has-content
+  h1: (props: any) => <h1 {...props} style={{ color: 'red' }} />,
 };
 
 const PostLayout: React.FC = ({ children }) => {

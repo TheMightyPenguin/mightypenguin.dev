@@ -5,12 +5,13 @@ import { Theme } from '../../theme/types';
 import * as styleRefs from './Box.treat';
 
 type Props = {
-  as?: string;
+  as?: React.ElementType;
   padding: Theme['space'];
 };
 
-const Box: React.FC<Props> = ({ as: Component = 'div' }) => {
+const Box: React.FC<Props> = ({ as: Component = 'div' }: Props) => {
   const styles = useStyles(styleRefs);
-  // @ts-ignore
   return <Component className={`${styles.reset}`} />;
 };
+
+export default Box;

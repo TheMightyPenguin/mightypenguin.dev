@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FullWidth: React.FC = ({ children, height }) => {
+const FullWidth: React.FC = ({ children }) => {
   return (
     <div
       style={{

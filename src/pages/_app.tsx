@@ -1,14 +1,9 @@
 import '../styles/globals.css';
 
-import { Components, MDXProvider } from '@mdx-js/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import ThemeProvider from '../theme/ThemeProvider';
-
-const components = {
-  h1: (props) => <h1 style={{ color: 'yellow' }} {...props} />,
-};
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -24,9 +19,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           rel="stylesheet"
         />
       </Head>
-      <MDXProvider components={components}>
-        <Component {...pageProps} />
-      </MDXProvider>
+      <Component {...pageProps} />
     </ThemeProvider>
   );
 };
