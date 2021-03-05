@@ -5,6 +5,7 @@ import Link from 'next/link';
 import path from 'path';
 import React from 'react';
 
+import Box from '../../components/Box/Box';
 import Text from '../../components/Text/Text';
 
 const generateEmojiFavicon = (emoji: string) =>
@@ -40,6 +41,8 @@ const Igloo: React.FC<Props> = ({ links }) => {
       >
         Igloo
       </Text>
+
+      <Box padding="small">Hello world</Box>
 
       <div
         style={{

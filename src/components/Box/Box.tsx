@@ -6,12 +6,24 @@ import * as styleRefs from './Box.treat';
 
 type Props = {
   as?: React.ElementType;
-  padding: Theme['space'];
+  paddingTop?: keyof Theme['spaces'];
 };
 
-const Box: React.FC<Props> = ({ as: Component = 'div' }: Props) => {
+const Box: React.FC<Props> = ({
+  as: Component = 'div',
+  paddingTop = 'none',
+  ...rest
+}: Props) => {
   const styles = useStyles(styleRefs);
-  return <Component className={`${styles.reset}`} />;
+  const computedPadding = styles.padding.top[paddingTop];
+
+  return (
+    <Component
+      style={{ color: 'black' }}
+      className={[computedPadding, styles.reset].join(' ')}
+      {...rest}
+    />
+  );
 };
 
 export default Box;

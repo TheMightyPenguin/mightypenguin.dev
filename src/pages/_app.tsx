@@ -19,7 +19,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           rel="stylesheet"
         />
       </Head>
-      <Component {...pageProps} />
+      <main>
+        <Component {...pageProps} />
+      </main>
     </ThemeProvider>
   );
 };
