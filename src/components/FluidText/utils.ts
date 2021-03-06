@@ -38,8 +38,6 @@ export const getFontStyles = ({
     lineGap,
   });
 
-  console.log({ s: capsizeStyles.fontSize });
-
   return {
     ...capsizeStyles,
   };
