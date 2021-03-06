@@ -18,6 +18,10 @@ type Props = SketchOptions;
 const NodeParticles: React.FC<Props> = (sketchOptions) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const disableScroll: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    event.preventDefault();
+  };
+
   useEffect(() => {
     if (!containerRef.current) {
       return;
@@ -37,7 +41,7 @@ const NodeParticles: React.FC<Props> = (sketchOptions) => {
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
   };
 
-  return <div style={style} ref={containerRef} />;
+  return <div onTouchMove={disableScroll} style={style} ref={containerRef} />;
 };
 
 export default NodeParticles;
