@@ -45,17 +45,6 @@ const Home = () => {
           </Text>
         </Stack>
 
-        <Stack space="small">
-          <FluidText
-            minSize="small"
-            maxSize="medium"
-            targetPercentage={0.1}
-            lineGap={20}
-          >
-            Hello fluidity in this very cool text
-          </FluidText>
-        </Stack>
-
         <div
           style={{
             marginTop: '1.5rem',
