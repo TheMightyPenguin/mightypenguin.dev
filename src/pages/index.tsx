@@ -23,23 +23,25 @@ const Home = () => {
         <link rel="icon" href={generateEmojiFavicon('🐧')} />
       </Head>
 
-      <Stack space="large" xAlign="center">
-        <div style={{ fontSize: '64px' }}>
-          <span role="img" aria-label="Penguin">
-            🐧
-          </span>
-        </div>
+      <Stack space="medium" xAlign="center">
+        <Stack space="xsmall" xAlign="center">
+          <div style={{ fontSize: '64px' }}>
+            <span role="img" aria-label="Penguin">
+              🐧
+            </span>
+          </div>
 
-        <Text
-          size="large"
-          style={{
-            position: 'relative',
-            fontFamily: "'Major Mono Display', monospace",
-            letterSpacing: '1px',
-          }}
-        >
-          TheMightyPenguin
-        </Text>
+          <Text
+            size="large"
+            style={{
+              position: 'relative',
+              fontFamily: "'Major Mono Display', monospace",
+              letterSpacing: '1px',
+            }}
+          >
+            TheMightyPenguin
+          </Text>
+        </Stack>
 
         <div
           style={{
