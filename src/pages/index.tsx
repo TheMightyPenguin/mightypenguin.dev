@@ -2,8 +2,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 
-import Box from '@/components/Box/Box';
-import FluidText from '@/components/FluidText/FluidText';
 import Stack from '@/components/Stack/Stack';
 import Text from '@/components/Text/Text';
 
