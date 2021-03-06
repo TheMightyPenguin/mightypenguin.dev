@@ -24,6 +24,12 @@
       ],
       "@/theme/*": [
         "theme/*"
+      ],
+      "@/utils/*": [
+        "utils/*"
+      ],
+      "@/hooks/*": [
+        "hooks/*"
       ]
     }
   },

@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 
+import Box from '@/components/Box/Box';
+import FluidText from '@/components/FluidText/FluidText';
 import Stack from '@/components/Stack/Stack';
 import Text from '@/components/Text/Text';
 
@@ -41,6 +43,12 @@ const Home = () => {
           >
             TheMightyPenguin
           </Text>
+        </Stack>
+
+        <Stack space="small">
+          <FluidText minSize="small" maxSize="medium" targetPercentage={0.1}>
+            Hello fluidity in this very cool text
+          </FluidText>
         </Stack>
 
         <div

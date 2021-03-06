@@ -18,6 +18,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <main>
         <Component {...pageProps} />

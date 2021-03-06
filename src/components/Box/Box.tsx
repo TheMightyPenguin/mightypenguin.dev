@@ -15,6 +15,9 @@ export type Props = {
   paddingRight?: keyof Theme['spaces'];
   paddingLeft?: keyof Theme['spaces'];
 
+  // size
+  maxWidth?: Property.MaxWidth;
+
   display?: keyof typeof styleRefs.display;
 
   // flex
@@ -30,6 +33,7 @@ const Box: React.FC<Props> = ({
   paddingBottom,
   paddingRight,
   paddingLeft,
+  maxWidth,
   display = 'flex',
   flexDirection = 'column',
   justifyContent,
@@ -50,7 +54,7 @@ const Box: React.FC<Props> = ({
     styles.reset,
   );
 
-  return <Component className={className} {...rest} />;
+  return <Component className={className} style={{ maxWidth }} {...rest} />;
 };
 
 export default Box;
