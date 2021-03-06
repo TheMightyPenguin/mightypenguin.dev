@@ -13,14 +13,15 @@ const renderAnimation = async (
   return new p5(sketch(sketchOptions), container);
 };
 
-type Props = SketchOptions;
+type Props = SketchOptions & {
+  disableScroll?: boolean;
+};
 
-const NodeParticles: React.FC<Props> = (sketchOptions) => {
+const NodeParticles: React.FC<Props> = ({
+  disableScroll = true,
+  ...sketchOptions
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const disableScroll: React.TouchEventHandler<HTMLDivElement> = (event) => {
-    event.preventDefault();
-  };
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -36,12 +37,13 @@ const NodeParticles: React.FC<Props> = (sketchOptions) => {
     };
   }, [containerRef]);
 
-  const style = {
+  const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
+    touchAction: disableScroll ? 'none' : undefined,
   };
 
-  return <div onTouchMove={disableScroll} style={style} ref={containerRef} />;
+  return <div style={style} ref={containerRef} />;
 };
 
 export default NodeParticles;

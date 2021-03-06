@@ -92,11 +92,6 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     state = getInitialState({ ...config, ...sketchOptions });
   };
 
-  // prevent default on touch to prevent scrolling
-  p.touchMoved = () => {
-    // return false;
-  };
-
   p.draw = () => {
     p.background(BACKGROUND_COLOR);
 
