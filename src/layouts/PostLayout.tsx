@@ -1,11 +1,21 @@
 import { Components, MDXProvider } from '@mdx-js/react';
 import React from 'react';
 
+import FluidText from '@/components/FluidText/FluidText';
 import Stack from '@/components/Stack/Stack';
 
 const mdxComponents: Components = {
   // eslint-disable-next-line jsx-a11y/heading-has-content
   h1: (props: any) => <h1 {...props} style={{ color: 'red' }} />,
+  p: (props: any) => (
+    <FluidText
+      minSize="small"
+      maxSize="medium"
+      targetPercentage={0.1}
+      lineGap={16}
+      {...props}
+    />
+  ),
 };
 
 const PostLayout: React.FC = ({ children }) => {
@@ -19,7 +29,7 @@ const PostLayout: React.FC = ({ children }) => {
       }}
     >
       <MDXProvider components={mdxComponents}>
-        <Stack space="small">{children}</Stack>
+        <Stack space="medium">{children}</Stack>
       </MDXProvider>
     </div>
   );

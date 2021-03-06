@@ -14,6 +14,7 @@ export type GetFontStylesOptions = {
   screenWidth: number;
   minFontSize: number;
   maxFontSize: number;
+  lineGap?: number;
   targetPercentage: number;
 };
 
@@ -26,6 +27,7 @@ export const getFontStyles = ({
   screenWidth,
   minFontSize,
   maxFontSize,
+  lineGap = 16,
   targetPercentage,
 }: GetFontStylesOptions) => {
   const fontSize = clamp(
@@ -37,7 +39,7 @@ export const getFontStyles = ({
   const capsizeStyles = capsize({
     fontMetrics: vollkornFontMetrics,
     fontSize,
-    lineGap: 16,
+    lineGap,
   });
 
   return {

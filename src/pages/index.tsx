@@ -46,7 +46,12 @@ const Home = () => {
         </Stack>
 
         <Stack space="small">
-          <FluidText minSize="small" maxSize="medium" targetPercentage={0.1}>
+          <FluidText
+            minSize="small"
+            maxSize="medium"
+            targetPercentage={0.1}
+            lineGap={20}
+          >
             Hello fluidity in this very cool text
           </FluidText>
         </Stack>
