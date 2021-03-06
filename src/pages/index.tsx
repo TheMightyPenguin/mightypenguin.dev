@@ -2,7 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 
-import Text from '../components/Text/Text';
+import Stack from '@/components/Stack/Stack';
+import Text from '@/components/Text/Text';
 
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
@@ -22,40 +23,41 @@ const Home = () => {
         <link rel="icon" href={generateEmojiFavicon('🐧')} />
       </Head>
 
-      <div style={{ fontSize: '64px' }}>
-        <span role="img" aria-label="Penguin">
-          🐧
-        </span>
-      </div>
+      <Stack space="large" xAlign="center">
+        <div style={{ fontSize: '64px' }}>
+          <span role="img" aria-label="Penguin">
+            🐧
+          </span>
+        </div>
 
-      <Text
-        size="large"
-        style={{
-          position: 'relative',
-          top: '-10px',
-          fontFamily: "'Major Mono Display', monospace",
-          letterSpacing: '1px',
-        }}
-      >
-        TheMightyPenguin
-      </Text>
+        <Text
+          size="large"
+          style={{
+            position: 'relative',
+            fontFamily: "'Major Mono Display', monospace",
+            letterSpacing: '1px',
+          }}
+        >
+          TheMightyPenguin
+        </Text>
 
-      <div
-        style={{
-          marginTop: '1.5rem',
-          fontFamily: "'Major Mono Display', monospace",
-          fontSize: '16px',
-          display: 'flex',
-          gap: '16px',
-        }}
-      >
-        <Link href="/igloo">
-          <a>
-            <span role="img">❄</span>
-            igloo
-          </a>
-        </Link>
-      </div>
+        <div
+          style={{
+            marginTop: '1.5rem',
+            fontFamily: "'Major Mono Display', monospace",
+            fontSize: '16px',
+            display: 'flex',
+            gap: '16px',
+          }}
+        >
+          <Link href="/igloo">
+            <a>
+              <span role="img">❄</span>
+              igloo
+            </a>
+          </Link>
+        </div>
+      </Stack>
     </div>
   );
 };

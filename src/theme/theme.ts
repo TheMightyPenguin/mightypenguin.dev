@@ -19,7 +19,6 @@ const theme = {
     large: 64,
     xlarge: 128,
     xxlarge: 256,
-    xxxlarge: 512,
   },
 } as const;
 

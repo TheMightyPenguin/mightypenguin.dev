@@ -42,7 +42,7 @@ const Igloo: React.FC<Props> = ({ links }) => {
         Igloo
       </Text>
 
-      <Box padding="small">Hello world</Box>
+      <Box paddingLeft="medium">Hello world</Box>
 
       <div
         style={{

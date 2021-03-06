@@ -1,23 +1,37 @@
 import React, { Children, cloneElement, isValidElement } from 'react';
-import { useStyles } from 'react-treat';
 
-import * as styleRefs from './Stack.treat';
+import Box, { Props as BoxProps } from '@/components/Box/Box';
+import { HorizontalAlignment, Theme } from '@/theme/types';
 
-const Stack: React.FC = ({ children }) => {
-  const styles = useStyles(styleRefs);
+type Props = {
+  space: keyof Theme['spaces'];
+  xAlign?: HorizontalAlignment;
+};
+
+const horizontalAlignmentToFlex: Record<
+  HorizontalAlignment,
+  BoxProps['alignItems']
+> = {
+  full: undefined,
+  left: 'flexStart',
+  center: 'center',
+  right: 'flexEnd',
+};
+
+const Stack: React.FC<Props> = ({ children, space, xAlign }) => {
   return (
-    <div>
-      {Children.map(children, (child) => {
+    <Box alignItems={horizontalAlignmentToFlex[xAlign!]}>
+      {Children.map(children, (child, index) => {
         if (!isValidElement(child)) {
           return null;
         }
         return (
-          <div className={styles.bottomSpace}>
+          <Box paddingTop={index === 0 ? undefined : space}>
             {cloneElement(child, child.props, child.props.children)}
-          </div>
+          </Box>
         );
       })}
-    </div>
+    </Box>
   );
 };
 
