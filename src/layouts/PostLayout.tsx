@@ -9,10 +9,10 @@ const mdxComponents: Components = {
   h1: (props: any) => <h1 {...props} style={{ color: 'red' }} />,
   p: (props: any) => (
     <FluidText
-      minSize="small"
-      maxSize="medium"
-      targetPercentage={0.1}
-      lineGap={16}
+      minSize="medium"
+      maxSize="xlarge"
+      targetPercentage={0.02}
+      lineGap={18}
       {...props}
     />
   ),

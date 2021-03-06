@@ -8,7 +8,7 @@ const CanvasEmbed: React.FC<{ height?: number }> = ({ children, height }) => {
   const [show, toggle] = useToggle(true);
 
   const handleClick = () => {
-    toggle(undefined);
+    toggle(false);
     window.setTimeout(() => toggle(true), 30);
   };
 
@@ -16,16 +16,15 @@ const CanvasEmbed: React.FC<{ height?: number }> = ({ children, height }) => {
     <div
       style={{
         width: '100vw',
-        position: 'relative',
         left: '50%',
         right: '50%',
+        position: 'relative',
         marginLeft: '-50vw',
         marginRight: '-50vw',
-        overflow: 'hidden',
-        height: height,
+        height,
       }}
     >
-      {show ? children : false}
+      {show ? children : null}
       <div
         onClick={handleClick}
         style={{

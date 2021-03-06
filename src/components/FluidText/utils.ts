@@ -19,8 +19,6 @@ export type GetFontStylesOptions = {
 };
 
 /**
- *
- * @param param0
  * @see  https://css-tricks.com/simplified-fluid-typography/
  */
 export const getFontStyles = ({
@@ -30,10 +28,8 @@ export const getFontStyles = ({
   lineGap = 16,
   targetPercentage,
 }: GetFontStylesOptions) => {
-  const fontSize = clamp(
-    screenWidth * targetPercentage,
-    minFontSize,
-    maxFontSize,
+  const fontSize = Math.round(
+    clamp(screenWidth * targetPercentage, minFontSize, maxFontSize),
   );
 
   const capsizeStyles = capsize({
@@ -41,6 +37,8 @@ export const getFontStyles = ({
     fontSize,
     lineGap,
   });
+
+  console.log({ s: capsizeStyles.fontSize });
 
   return {
     ...capsizeStyles,

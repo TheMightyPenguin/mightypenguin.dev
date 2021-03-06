@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { sketch, SketchOptions } from '../../../canvas/nodeParticles';
+import { sketch, SketchOptions } from '@/canvas/nodeParticles';
 
 const renderAnimation = async (
   container: HTMLDivElement,
@@ -31,8 +31,6 @@ const NodeParticles: React.FC<Props> = (sketchOptions) => {
       });
     };
   }, [containerRef]);
-
-  console.log({ sketchOptions });
 
   const style = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,

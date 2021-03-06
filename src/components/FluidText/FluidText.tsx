@@ -32,11 +32,15 @@ const FluidText: React.FC<Props> = ({
     lineGap,
   });
 
+  if (typeof windowSize === 'undefined') {
+    return null;
+  }
+
   return (
     <p className={styles.text} style={fontStyles}>
-      <div style={fontStyles['::before']} />
+      <span style={fontStyles['::before']} />
       {children}
-      <div style={fontStyles['::after']} />
+      <span style={fontStyles['::after']} />
     </p>
   );
 };

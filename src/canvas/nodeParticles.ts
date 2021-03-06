@@ -94,7 +94,7 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
 
   // prevent default on touch to prevent scrolling
   p.touchMoved = () => {
-    return false;
+    // return false;
   };
 
   p.draw = () => {
