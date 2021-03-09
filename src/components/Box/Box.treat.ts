@@ -43,7 +43,7 @@ export const justifyContent = styleMap(() => ({
 }));
 
 export const alignItems = styleMap(() => ({
-  flexStart: { justifyContent: 'flex-start' },
-  center: { justifyContent: 'center' },
-  flexEnd: { justifyContent: 'flex-end' },
+  flexStart: { alignItems: 'flex-start' },
+  center: { alignItems: 'center' },
+  flexEnd: { alignItems: 'flex-end' },
 }));

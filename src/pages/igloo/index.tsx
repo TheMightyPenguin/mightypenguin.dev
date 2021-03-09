@@ -5,8 +5,9 @@ import Link from 'next/link';
 import path from 'path';
 import React from 'react';
 
-import Box from '../../components/Box/Box';
-import Text from '../../components/Text/Text';
+import Box from '@/components/Box/Box';
+import Footer from '@/components/Footer/Footer';
+import Text from '@/components/Text/Text';
 
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
@@ -42,7 +43,10 @@ const Igloo: React.FC<Props> = ({ links }) => {
         Igloo
       </Text>
 
-      <Box paddingLeft="medium">Hello world</Box>
+      <Box paddingLeft="medium">
+        Igloo is a space where I post web experiments and art with creative
+        coding
+      </Box>
 
       <div
         style={{
@@ -59,6 +63,7 @@ const Igloo: React.FC<Props> = ({ links }) => {
           </Link>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

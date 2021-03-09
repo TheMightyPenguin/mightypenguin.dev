@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 
+import Footer from '@/components/Footer/Footer';
 import Stack from '@/components/Stack/Stack';
 import Text from '@/components/Text/Text';
 
@@ -60,6 +61,7 @@ const Home = () => {
           </Link>
         </div>
       </Stack>
+      <Footer />
     </div>
   );
 };
