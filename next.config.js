@@ -10,14 +10,26 @@ const withTreat = require('next-treat')();
 const images = require('remark-images');
 const emoji = require('remark-emoji');
 
-module.exports = withPlugins([
-  withMdxEnhanced({
-    layoutPath: 'src/layouts',
-    fileExtensions: ['mdx'],
-    remarkPlugins: [images, emoji],
-    rehypePlugins: [],
-    usesSrc: false,
-    reExportDataFetching: false,
-  }),
-  withTreat,
-]);
+module.exports = withPlugins(
+  [
+    withMdxEnhanced({
+      layoutPath: 'src/layouts',
+      fileExtensions: ['mdx'],
+      remarkPlugins: [images, emoji],
+      rehypePlugins: [],
+      usesSrc: false,
+      reExportDataFetching: false,
+    }),
+    withTreat,
+  ],
+  {
+    async rewrites() {
+      return [
+        {
+          source: '/cv',
+          destination: '/victor-tortolero_cv.pdf',
+        },
+      ];
+    },
+  },
+);

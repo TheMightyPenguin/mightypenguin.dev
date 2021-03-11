@@ -9,3 +9,5 @@ export type Spaces = ValueOf<Theme['spaces']>;
 export type NegativeSpaces = `-${keyof Theme['spaces']}`;
 
 export type HorizontalAlignment = 'full' | 'left' | 'center' | 'right';
+
+export type VerticalAlignment = 'bottom' | 'center' | 'top';

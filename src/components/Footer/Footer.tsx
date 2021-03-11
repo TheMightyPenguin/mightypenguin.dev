@@ -28,13 +28,14 @@ const Footer: React.FC = () => {
         transform: 'translateX(-50%)',
       }}
     >
-      <Inline space="large">
+      <Inline space="large" yAlign="center">
         {links.map(({ link, icon }) => (
           <a href={link} key={link}>
             {icon}
             <span className="visually-hidden">{link}</span>
           </a>
         ))}
+        <a href="https://mightypenguin.dev/cv">CV</a>
       </Inline>
     </div>
   );
