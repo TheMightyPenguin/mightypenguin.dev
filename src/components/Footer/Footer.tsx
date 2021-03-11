@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { GitHub, Linkedin, Twitter } from 'react-feather';
 
@@ -35,7 +36,7 @@ const Footer: React.FC = () => {
             <span className="visually-hidden">{link}</span>
           </a>
         ))}
-        <a href="https://mightypenguin.dev/cv">CV</a>
+        <Link href="https://mightypenguin.dev/cv">CV</Link>
       </Inline>
     </div>
   );
