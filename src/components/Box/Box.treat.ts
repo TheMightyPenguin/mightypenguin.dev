@@ -40,6 +40,12 @@ export const justifyContent = styleMap(() => ({
   flexStart: { justifyContent: 'flex-start' },
   center: { justifyContent: 'center' },
   flexEnd: { justifyContent: 'flex-end' },
+  spaced: { justifyContent: 'space-between' },
+}));
+
+export const flexWrap = styleMap(() => ({
+  wrap: { flexWrap: 'wrap' },
+  nowrap: { flexWrap: 'nowrap' },
 }));
 
 export const alignItems = styleMap(() => ({

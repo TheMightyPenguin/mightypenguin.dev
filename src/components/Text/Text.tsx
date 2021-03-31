@@ -4,7 +4,7 @@ import { useStyles } from 'react-treat';
 import * as styleRefs from './Text.treat';
 
 type Props = {
-  size?: 'small' | 'large';
+  size?: 'small' | 'large' | 'title';
 } & React.ComponentProps<'p'>;
 
 const Text: React.FC<Props> = ({ size = 'small', children, ...otherProps }) => {

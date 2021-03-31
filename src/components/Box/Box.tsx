@@ -24,6 +24,7 @@ export type Props = {
   flexDirection?: keyof typeof styleRefs.flexDirection;
   justifyContent?: keyof typeof styleRefs.justifyContent;
   alignItems?: keyof typeof styleRefs.alignItems;
+  flexWrap?: keyof typeof styleRefs.flexWrap;
 };
 
 const Box: React.FC<Props> = ({
@@ -34,10 +35,11 @@ const Box: React.FC<Props> = ({
   paddingRight,
   paddingLeft,
   maxWidth,
-  display = 'flex',
-  flexDirection = 'column',
+  display,
+  flexDirection,
   justifyContent,
   alignItems,
+  flexWrap,
   ...rest
 }: Props) => {
   const styles = useStyles(styleRefs);
@@ -47,10 +49,11 @@ const Box: React.FC<Props> = ({
     styles.padding.bottom[paddingBottom ?? padding!],
     styles.padding.right[paddingRight ?? padding!],
     styles.padding.left[paddingLeft ?? padding!],
-    styles.display[display],
-    styles.flexDirection[flexDirection],
+    styles.display[display!],
+    styles.flexDirection[flexDirection!],
     styles.justifyContent[justifyContent!],
     styles.alignItems[alignItems!],
+    styles.flexWrap[flexWrap!],
     styles.reset,
   );
 

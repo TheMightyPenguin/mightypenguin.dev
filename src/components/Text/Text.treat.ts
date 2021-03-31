@@ -35,4 +35,12 @@ export const variants = styleMap({
   large: {
     ...getStyles({ fontSize: 38, lineGap: 16 }),
   },
+  title: {
+    ...getStyles({ fontSize: 23, lineGap: 16 }),
+    '@media': {
+      'only screen and (min-width: 520px)': {
+        ...getStyles({ fontSize: 38, lineGap: 16 }),
+      },
+    },
+  },
 });

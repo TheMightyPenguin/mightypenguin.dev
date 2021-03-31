@@ -17,6 +17,7 @@ const horizontalAlignmentToFlex: Record<
   left: 'flexStart',
   center: 'center',
   right: 'flexEnd',
+  spaced: 'spaced',
 };
 
 const verticalAlignmentToFlex: Record<
@@ -33,7 +34,9 @@ const Inline: React.FC<Props> = ({ children, space, xAlign, yAlign }) => {
     <Box
       justifyContent={horizontalAlignmentToFlex[xAlign!]}
       alignItems={verticalAlignmentToFlex[yAlign!]}
+      display="flex"
       flexDirection="row"
+      flexWrap="wrap"
     >
       {Children.map(children, (child, index) => {
         if (!isValidElement(child)) {

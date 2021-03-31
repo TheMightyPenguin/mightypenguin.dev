@@ -18,6 +18,7 @@ const Home = () => {
         alignItems: 'center',
         flexDirection: 'column',
         height: '100vh',
+        padding: 20,
       }}
     >
       <Head>
@@ -33,7 +34,7 @@ const Home = () => {
           </div>
 
           <Text
-            size="large"
+            size="title"
             style={{
               position: 'relative',
               fontFamily: "'Major Mono Display', monospace",
@@ -47,7 +48,8 @@ const Home = () => {
         <div
           style={{
             fontFamily: "'Vollkorn', serif",
-            padding: 20,
+            paddingLeft: 12,
+            paddingRight: 12,
             maxWidth: 600,
           }}
         >

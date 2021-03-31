@@ -19,17 +19,40 @@ const links = [
   },
 ];
 
-const Footer: React.FC = () => {
+type Props = {
+  overlay?: boolean;
+};
+
+const Footer: React.FC<Props> = ({ overlay }) => {
   return (
     <div
       style={{
         position: 'fixed',
         bottom: '1rem',
         left: '50%',
+        width: '100vw',
+        paddingLeft: 20,
+        paddingRight: 20,
         transform: 'translateX(-50%)',
+        maxWidth: 420,
+        fontFamily: 'Vollkorn',
+        fontSize: 24,
+        color: 'black',
+        overflow: 'hidden',
+        zIndex: 10,
+        ...(overlay
+          ? {
+              backgroundColor: 'white',
+              paddingTop: 10,
+              bottom: 0,
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+              boxShadow: '0px -1px 17px 1px rgba(90,90,90,0.65)',
+            }
+          : undefined),
       }}
     >
-      <Inline space="large" yAlign="center">
+      <Inline space="none" yAlign="center" xAlign="spaced">
         <Link href="/">
           <a>
             <Home size={32} color="black" />
@@ -42,7 +65,9 @@ const Footer: React.FC = () => {
             <span className="visually-hidden">{link}</span>
           </a>
         ))}
-        <Link href="https://mightypenguin.dev/cv">CV</Link>
+        <Link href="https://mightypenguin.dev/cv">
+          <a style={{ color: 'black' }}>CV</a>
+        </Link>
       </Inline>
     </div>
   );

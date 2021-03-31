@@ -20,7 +20,11 @@ const horizontalAlignmentToFlex: Record<
 
 const Stack: React.FC<Props> = ({ children, space, xAlign }) => {
   return (
-    <Box alignItems={horizontalAlignmentToFlex[xAlign!]}>
+    <Box
+      alignItems={horizontalAlignmentToFlex[xAlign!]}
+      display="flex"
+      flexDirection="column"
+    >
       {Children.map(children, (child, index) => {
         if (!isValidElement(child)) {
           return null;
