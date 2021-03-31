@@ -46,10 +46,36 @@ const Home = () => {
 
         <div
           style={{
+            fontFamily: "'Vollkorn', serif",
+            padding: 20,
+            maxWidth: 600,
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>
+            Hi there
+            <span role="img" aria-label="wave">
+              👋
+            </span>
+            ! I&apos;m a proactive Software Engineer that loves doing front-end.
+            I also{' '}
+            <Link href="/open-source">
+              <a>contribute to open source</a>
+            </Link>{' '}
+            from time to time, and enjoy making{' '}
+            <Link href="/igloo/node-particles">
+              <a>art with code</a>
+            </Link>
+            !
+          </Text>
+        </div>
+
+        <div
+          style={{
             marginTop: '1.5rem',
-            fontFamily: "'Major Mono Display', monospace",
-            fontSize: '16px',
+            fontFamily: "'Vollkorn', monospace",
+            fontSize: '20px',
             display: 'flex',
+            alignItems: 'center',
             gap: '16px',
           }}
         >
@@ -58,6 +84,9 @@ const Home = () => {
               <span role="img">❄</span>
               igloo
             </a>
+          </Link>
+          <Link href="/open-source">
+            <a>open source</a>
           </Link>
         </div>
       </Stack>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { GitHub, Linkedin, Twitter } from 'react-feather';
+import { GitHub, Home, Linkedin, Twitter } from 'react-feather';
 
 import Inline from '@/components/Inline/Inline';
 
@@ -30,6 +30,12 @@ const Footer: React.FC = () => {
       }}
     >
       <Inline space="large" yAlign="center">
+        <Link href="/">
+          <a>
+            <Home size={32} color="black" />
+            <span className="visually-hidden">home</span>
+          </a>
+        </Link>
         {links.map(({ link, icon }) => (
           <a href={link} key={link}>
             {icon}
