@@ -96,7 +96,7 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     p.background(BACKGROUND_COLOR);
 
     const { nodes } = state;
-    const mouse = { x: p.mouseX, y: p.mouseY };
+    const mouse = { x: p.mouseX || p.width / 2, y: p.mouseY || p.height / 2 };
 
     // @ts-ignore
     const closestNode: Node = nodes.reduce(
