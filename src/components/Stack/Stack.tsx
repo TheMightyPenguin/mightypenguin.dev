@@ -16,6 +16,7 @@ const horizontalAlignmentToFlex: Record<
   left: 'flexStart',
   center: 'center',
   right: 'flexEnd',
+  spaced: undefined,
 };
 
 const Stack: React.FC<Props> = ({ children, space, xAlign }) => {
