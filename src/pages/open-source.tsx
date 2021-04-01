@@ -25,6 +25,7 @@ const OpenSource = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
+        padding: 20,
         height: '100vh',
       }}
     >
@@ -42,7 +43,7 @@ const OpenSource = () => {
           <Stack space="small">
             {contributions.map((item) => {
               return (
-                <li key={item.href}>
+                <li key={item.href} style={{ wordBreak: 'break-word' }}>
                   <a href={item.href} target="_blank" rel="noreferrer">
                     <Text>{item.href}</Text>
                   </a>

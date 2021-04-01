@@ -78,7 +78,6 @@ const Home = () => {
             fontSize: '20px',
             display: 'flex',
             alignItems: 'center',
-            gap: '16px',
           }}
         >
           <Link href="/igloo">
@@ -87,9 +86,11 @@ const Home = () => {
               igloo
             </a>
           </Link>
-          <Link href="/open-source">
-            <a>open source</a>
-          </Link>
+          <div style={{ marginLeft: 16 }}>
+            <Link href="/open-source">
+              <a>open source</a>
+            </Link>
+          </div>
         </div>
       </Stack>
       <Footer />
