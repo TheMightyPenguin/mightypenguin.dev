@@ -10,6 +10,7 @@ const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
 
 const contributions = [
+  { href: 'https://github.com/storybookjs/storybook/pull/14495' },
   { href: 'https://github.com/storybookjs/storybook/pull/14251' },
   { href: 'https://github.com/apollographql/apollo-client/pull/3725' },
   { href: 'https://github.com/withspectrum/spectrum/pull/3072' },
