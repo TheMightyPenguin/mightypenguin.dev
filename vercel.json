@@ -3,6 +3,10 @@
     {
       "source": "/get-dotfiles",
       "destination": "https://raw.githubusercontent.com/TheMightyPenguin/dotfiles/master/init.sh"
+    },
+    {
+      "source": "/igloo/nodeParticles",
+      "destination": "/igloo/node-particles"
     }
   ]
 }

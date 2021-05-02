@@ -64,7 +64,7 @@ const Home = () => {
               <a>contribute to open source</a>
             </Link>{' '}
             from time to time, and enjoy making{' '}
-            <Link href="/igloo/nodeParticles">
+            <Link href="/igloo/node-particles">
               <a>art with code</a>
             </Link>
             !
