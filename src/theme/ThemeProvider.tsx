@@ -1,9 +1,7 @@
-import { TreatProvider } from 'react-treat';
-
-import threatTheme from './theme.treat';
+import React from 'react';
 
 const ThemeProvider: React.FC = ({ children }) => {
-  return <TreatProvider theme={threatTheme}>{children}</TreatProvider>;
+  return <React.Fragment>{children}</React.Fragment>;
 };
 
 export default ThemeProvider;

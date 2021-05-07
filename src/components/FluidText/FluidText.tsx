@@ -1,11 +1,10 @@
 import React from 'react';
-import { useStyles } from 'react-treat';
 
 import { useWindowSize } from '@/hooks/useWindowSize';
 import theme from '@/theme/theme';
 import { Theme } from '@/theme/types';
 
-import * as styleRefs from './FluidText.treat';
+import * as styles from './FluidText.css';
 import { getFontStyles } from './utils';
 
 type Props = {
@@ -22,7 +21,6 @@ const FluidText: React.FC<Props> = ({
   lineGap = 16,
   targetPercentage,
 }) => {
-  const styles = useStyles(styleRefs);
   const windowSize = useWindowSize();
   const fontStyles = getFontStyles({
     screenWidth: windowSize?.width || 0,

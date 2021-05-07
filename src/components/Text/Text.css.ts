@@ -1,5 +1,5 @@
+import { style, styleVariants } from '@vanilla-extract/css';
 import capsize from 'capsize';
-import { style, styleMap } from 'treat';
 
 const fontMetrics = {
   majorMono: {
@@ -28,7 +28,7 @@ export const reset = style({
   margin: 0,
 });
 
-export const variants = styleMap({
+export const variants = styleVariants({
   small: {
     ...getStyles({ fontSize: 16, lineGap: 16 }),
   },

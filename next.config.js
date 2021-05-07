@@ -5,7 +5,6 @@
 // @ts-nocheck
 const withMdxEnhanced = require('next-mdx-enhanced');
 const withPlugins = require('next-compose-plugins');
-const withTreat = require('next-treat')();
 
 const { VanillaExtractPlugin } = require('@vanilla-extract/webpack-plugin');
 const {
@@ -85,7 +84,6 @@ module.exports = withPlugins(
       usesSrc: false,
       reExportDataFetching: false,
     }),
-    withTreat,
   ],
   nextConfig,
 );
