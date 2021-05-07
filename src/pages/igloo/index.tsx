@@ -43,7 +43,7 @@ const Igloo: React.FC<Props> = ({ links }) => {
         Igloo
       </Text>
 
-      <Box paddingLeft="medium">
+      <Box paddingLeft="3x">
         Igloo is a space where I post web experiments and art with creative
         coding
       </Box>

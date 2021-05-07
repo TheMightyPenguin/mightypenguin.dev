@@ -1,4 +1,10 @@
 {
-  "presets": ["next/babel"],
-  "plugins": ["babel-plugin-treat", "import-glob-array"]
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    "babel-plugin-treat",
+    "import-glob-array",
+    "@vanilla-extract/babel-plugin"
+  ]
 }

@@ -1,10 +1,10 @@
 import React, { Children, cloneElement, isValidElement } from 'react';
 
 import Box, { Props as BoxProps } from '@/components/Box/Box';
-import { HorizontalAlignment, Theme } from '@/theme/types';
+import { HorizontalAlignment } from '@/theme/types';
 
 type Props = {
-  space: keyof Theme['spaces'];
+  space: React.ComponentProps<typeof Box>['paddingTop'];
   xAlign?: HorizontalAlignment;
 };
 
@@ -13,9 +13,9 @@ const horizontalAlignmentToFlex: Record<
   BoxProps['alignItems']
 > = {
   full: undefined,
-  left: 'flexStart',
+  left: 'flex-start',
   center: 'center',
-  right: 'flexEnd',
+  right: 'flex-end',
   spaced: undefined,
 };
 
