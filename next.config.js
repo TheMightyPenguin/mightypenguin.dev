@@ -14,13 +14,12 @@ const {
   default: MiniCssExtractPlugin,
 } = require('next/dist/build/webpack/plugins/mini-css-extract-plugin/src');
 
+const withTM = require('next-transpile-modules')(['dessert-box']);
 const images = require('remark-images');
 const emoji = require('remark-emoji');
 
 const nextConfig = {
-  future: {
-    webpack5: true,
-  },
+  future: {},
 
   webpack(config, options) {
     const { dev, isServer } = options;
@@ -32,9 +31,7 @@ const nextConfig = {
         ? getGlobalCssLoader(
             {
               assetPrefix: options.config.assetPrefix,
-              future: {
-                webpack5: true,
-              },
+              future: {},
               isClient: !isServer,
               isServer,
               isDevelopment: dev,
@@ -84,6 +81,7 @@ module.exports = withPlugins(
       usesSrc: false,
       reExportDataFetching: false,
     }),
+    withTM(),
   ],
   nextConfig,
 );

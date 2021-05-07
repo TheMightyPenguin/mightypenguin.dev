@@ -26,6 +26,7 @@
     "next": "10.2.0",
     "next-compose-plugins": "^2.2.1",
     "next-mdx-enhanced": "^5.0.0",
+    "next-transpile-modules": "^7.0.0",
     "p5": "^1.2.0",
     "polished": "^4.1.2",
     "react": "17.0.1",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
+    "webpack": "^4.46.0",
     "@types/countdown": "0.0.7",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.6",
