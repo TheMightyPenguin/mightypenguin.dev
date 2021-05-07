@@ -21,7 +21,7 @@
     "classnames": "^2.2.6",
     "countdown": "^2.6.0",
     "date-fns": "^2.16.1",
-    "dessert-box": "0.0.7",
+    "dessert-box": "0.0.8",
     "lodash": "^4.17.20",
     "next": "10.0.0",
     "next-compose-plugins": "^2.2.1",
