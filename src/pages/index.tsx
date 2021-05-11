@@ -25,7 +25,7 @@ const Home = () => {
         <link rel="icon" href={generateEmojiFavicon('🐧')} />
       </Head>
 
-      <Stack space="4x" xAlign="center">
+      <Stack space="6x" xAlign="center">
         <Stack space="1x" xAlign="center">
           <div style={{ fontSize: '64px' }}>
             <span role="img" aria-label="Penguin">
