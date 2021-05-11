@@ -1,9 +1,12 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useReducer } from 'react';
 
+import BackToLink from '@/components/BackToLink/BackToLink';
 import PackedDots from '@/components/canvas/PackedDots/PackedDots';
-import Footer from '@/components/Footer/Footer';
 
 const PackedDotsPage = () => {
+  const [count, increment] = useReducer((c) => c + 1, 0);
+
   const colors = {
     background: '#fff2f1',
     others: ['#5F00BA', '#A09BE7', '#C03221', '#231F20'],
@@ -11,8 +14,16 @@ const PackedDotsPage = () => {
 
   return (
     <React.Fragment>
-      <PackedDots colors={colors} width="full" height="full" />
-      <Footer overlay />
+      <div
+        style={{ cursor: 'pointer' }}
+        onClick={increment}
+        role="button"
+        aria-label="regenerate"
+        tabIndex={0}
+      >
+        <PackedDots key={count} colors={colors} width="full" height="full" />
+      </div>
+      <BackToLink href="/igloo">Back to Igloo</BackToLink>
     </React.Fragment>
   );
 };

@@ -4,6 +4,7 @@ import { sketch, SketchOptions } from '@/canvas/packedDots';
 
 const renderAnimation = async (
   container: HTMLDivElement,
+  // @ts-ignore
   sketchOptions: SketchOptions = {
     width: 'full',
     height: 'full',

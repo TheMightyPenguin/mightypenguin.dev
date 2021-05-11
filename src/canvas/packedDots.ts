@@ -40,10 +40,10 @@ const SCREEN_BOUNDS = 0;
 
 const config = {
   mobile: {
-    particleCount: 350,
+    particleCount: 100,
   },
   desktop: {
-    particleCount: 450,
+    particleCount: 100,
   },
 };
 
@@ -72,6 +72,7 @@ export type SketchOptions = {
 
 const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   let state: State;
+  const padding = 5;
 
   p.setup = () => {
     const width =
@@ -90,6 +91,8 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
       circle.color = p.random(sketchOptions.colors.others);
       return circle;
     });
+
+    p.background(sketchOptions.colors.background);
   };
 
   p.windowResized = () => {
@@ -107,34 +110,58 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
       circle.color = p.random(sketchOptions.colors.others);
       return circle;
     });
+
+    p.background(sketchOptions.colors.background);
   };
 
-  p.draw = () => {
-    p.background(sketchOptions.colors.background);
+  /**
+   * Returns true if we were able to add a new circle
+   * false otherwise
+   */
+  function tryToAddCircle(): boolean {
+    const candidate = new Circle();
 
+    const isValidCandidate = state.circles.every((circle) => {
+      const distance = getCircleDistance(candidate, circle);
+      return distance > padding;
+    });
+
+    if (isValidCandidate) {
+      candidate.color = p.random(sketchOptions.colors.others);
+      state.circles.push(candidate);
+    }
+
+    return isValidCandidate;
+  }
+
+  p.draw = () => {
     const { circles } = state;
 
-    for (const circle of circles) {
+    tryToAddCircle();
+    tryToAddCircle();
+    tryToAddCircle();
+    tryToAddCircle();
+
+    const activeCircles = circles.filter((circle) => circle.shouldGrow);
+
+    for (const circle of activeCircles) {
       p.fill(circle.color);
       p.stroke(circle.color);
       p.circle(circle.currentPosition.x, circle.currentPosition.y, circle.size);
 
-      if (circle.shouldGrow) {
-        for (const otherCircle of circles) {
-          if (circle.id === otherCircle.id) {
-            continue;
-          }
-
-          const padding = 5;
-          const distance = getCircleDistance(circle, otherCircle);
-
-          if (distance <= padding) {
-            circle.stopGrowing();
-          }
+      for (const otherCircle of circles) {
+        if (circle.id === otherCircle.id) {
+          continue;
         }
 
-        circle.grow();
+        const distance = getCircleDistance(circle, otherCircle);
+
+        if (distance <= padding) {
+          circle.stopGrowing();
+        }
       }
+
+      circle.grow();
     }
   };
 };
@@ -174,8 +201,7 @@ const getClosestCircle = (circle: Circle, allCircles: Array<Circle>) => {
  * the idea is to approximate a Poisson-disc distribution
  * @see https://bost.ocks.org/mike/algorithms/
  */
-const poissonDistribution = (quantity: number) => {
-  const circles: Array<Circle> = [];
+const poissonDistribution = (quantity: number, circles: Circle[] = []) => {
   const candidates = 20;
 
   let bestCircle = new Circle();
@@ -197,7 +223,6 @@ const poissonDistribution = (quantity: number) => {
       const candidate = new Circle();
       const closestPoint = getClosestCircle(candidate, circles);
       const distance = getCircleDistance(closestPoint, candidate);
-      console.log({ distance, bestDistance });
       if (distance > bestDistance) {
         bestDistance = distance;
         bestCircle = candidate;
@@ -219,8 +244,6 @@ export const getInitialState = ({
   getInitialPositions = poissonDistribution,
 }: Partial<SketchDeviceConfiguration & SketchOptions> = {}): State => {
   const circles = getInitialPositions(particleCount);
-
-  console.log({ circles });
 
   return {
     // @ts-ignore
