@@ -33,7 +33,7 @@ const OpenSource = () => {
       <Head>
         <link rel="icon" href={generateEmojiFavicon('🐧')} />
       </Head>
-      <Stack space="medium">
+      <Stack space="6x">
         <Link href="/">
           <a>
             <Text>&larr; Back to home</Text>
@@ -41,7 +41,7 @@ const OpenSource = () => {
         </Link>
         <Text>Open Source contributions I have made:</Text>
         <ul>
-          <Stack space="small">
+          <Stack space="3x">
             {contributions.map((item) => {
               return (
                 <li key={item.href} style={{ wordBreak: 'break-word' }}>
