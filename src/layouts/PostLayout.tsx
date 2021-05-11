@@ -29,7 +29,7 @@ const PostLayout: React.FC = ({ children }) => {
       }}
     >
       <MDXProvider components={mdxComponents}>
-        <Stack space="medium">{children}</Stack>
+        <Stack space="5x">{children}</Stack>
       </MDXProvider>
     </div>
   );
