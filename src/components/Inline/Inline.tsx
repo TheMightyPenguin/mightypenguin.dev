@@ -17,6 +17,7 @@ const horizontalAlignmentToFlex: Record<
   left: 'flex-start',
   center: 'center',
   right: 'flex-end',
+  spaced: 'space-between',
 };
 
 const verticalAlignmentToFlex: Record<
