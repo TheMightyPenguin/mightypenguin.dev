@@ -69,6 +69,18 @@ const Home = () => {
             </Link>
             !
           </Text>
+          <div style={{ height: 30 }} />
+          <Text style={{ fontSize: 18 }}>
+            Most recently I released{' '}
+            <a
+              href="https://github.com/TheMightyPenguin/dessert-box"
+              target="_blank"
+              rel="noreferrer"
+            >
+              dessert-box
+            </a>
+            , a library to create a Zero-CSS runtime <code>Box</code> component.
+          </Text>
         </div>
 
         <div

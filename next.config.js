@@ -65,7 +65,7 @@ const nextConfig = {
     return [
       {
         source: '/cv',
-        destination: '/victor-tortolero_cv.pdf',
+        destination: '/Victor_Tortolero_CV.pdf',
       },
     ];
   },
@@ -81,7 +81,7 @@ module.exports = withPlugins(
       usesSrc: false,
       reExportDataFetching: false,
     }),
-    withTM(),
+    withTM,
   ],
   nextConfig,
 );

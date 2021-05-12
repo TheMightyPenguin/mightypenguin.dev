@@ -26,7 +26,7 @@ const OpenSource = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        padding: 20,
+        padding: 30,
         height: '100vh',
       }}
     >
@@ -39,7 +39,20 @@ const OpenSource = () => {
             <Text>&larr; Back to home</Text>
           </a>
         </Link>
-        <Text>Open Source contributions I have made:</Text>
+        <Text style={{ fontSize: 18, maxWidth: 400 }}>
+          Most recently I released{' '}
+          <a
+            href="https://github.com/TheMightyPenguin/dessert-box"
+            target="_blank"
+            rel="noreferrer"
+          >
+            dessert-box
+          </a>
+          , a library to create a Zero-CSS runtime <code>Box</code> component.
+        </Text>
+        <Text style={{ fontSize: 18, maxWidth: 400 }}>
+          And I also like to contribute to open source from time to time:
+        </Text>
         <ul>
           <Stack space="3x">
             {contributions.map((item) => {
