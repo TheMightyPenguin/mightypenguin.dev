@@ -22,7 +22,7 @@
     "countdown": "^2.6.0",
     "date-fns": "^2.16.1",
     "dessert-box": "0.0.9",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "next": "10.2.0",
     "next-compose-plugins": "^2.2.1",
     "next-mdx-enhanced": "^5.0.0",
