@@ -1,0 +1,46 @@
+---
+layout: PostLayout
+title: Animating SVG paths with CSS
+publishedAt: 2021-02-05
+summary: How to use CSS properties to animate any SVG path
+state: draft
+---
+
+import CanvasEmbed from '../../components/CanvasEmbed';
+import SvgPathExample from '../../components/TIL/SvgPathExample';
+
+# Animating SVG paths with CSS
+
+<SvgPathExample />
+
+First, measure your `path` element length using JS, you can do this by running this in the browser console:
+
+```js
+Math.ceil(
+  document.querySelector('your-path-element-selector').getTotalLength(),
+);
+```
+
+> Note: We apply `Math.ceil` as this will likely be a floating point number and we round it up to make it easier to work with.
+
+Take a note of that number, for the `path` above the value is `827` so we'll use that in the example but replace it with yours. Now add the following CSS:
+
+```css
+@keyframes draw-path {
+  0%   { strokeDashoffset: 0 },
+  50%  { strokeDashoffset: -827 },
+  100% { strokeDashoffset: 0 },
+}
+
+.your-path-selector {
+  stroke-dashoffset: -pathLength;
+  transition: stroke-dashoffset 200ms ease;
+  animation: draw-path 6s infinite;
+}
+```
+
+And that's it, it looks like the line it's being drawn on the screen.
+
+You can also add a `stroke-dasharray` and get a different effect:
+
+<SvgPathExample strokeDasharray="20 0 10" />
