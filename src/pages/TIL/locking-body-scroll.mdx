@@ -1,0 +1,37 @@
+---
+layout: PostLayout
+title: Locking body scroll
+publishedAt: 2021-06-08
+summary: How to lock body scroll when showing an overlay UI (Modal, ...)
+state: draft
+---
+
+# Locking body scroll
+
+When we show an overlay-like UI (Modal, ...) it's common that we want to lock the body scroll, to prevent users from interacting with it while this UI is open.
+
+To accomplish this, we need to take a few things into consideration as applying `body { overflow: hidden; }` won't be enough as this doesn't work on iOS Safari.
+
+We could solve this on our own, but there are a few great libraries that solve this issue and handle the edge cases
+
+There's a [great article comparing libraries](https://medium.com/react-camp/how-to-fight-the-body-scroll-2b00267b37ac) by [@theKashey](https://twitter.com/theKashey) that solve this problem, including a few React specific options:
+
+Out of these, `scroll-lock` is a great Vanilla JS option and can be easily integrated with React, but https://github.com/theKashey/react-remove-scroll seems like it's worth checking out.
+
+```jsx
+import { disablePageScroll, enablePageScroll } from 'scroll-lock';
+
+const MyComponent = () => {
+  const nodeRef = useRef();
+
+  useEffect(() => {
+    disablePageScroll(nodeRef.current);
+
+    return () => {
+      enablePageScroll(nodeRef.current);
+    };
+  }, [nodeRef]);
+
+  // return JSX
+};
+```
