@@ -33,14 +33,11 @@ Take a note of that number, for the `path` above the value is `827` so we'll use
 }
 
 .your-path-selector {
-  stroke-dashoffset: -pathLength;
+  stroke-dashoffset: -827;
+  stroke-dash-array: 827;
   transition: stroke-dashoffset 200ms ease;
   animation: draw-path 6s infinite;
 }
 ```
 
 And that's it, it looks like the line it's being drawn on the screen.
-
-You can also add a `stroke-dasharray` and get a different effect:
-
-<SvgPathExample strokeDasharray="20 0 10" />
