@@ -14,7 +14,7 @@ const {
   default: MiniCssExtractPlugin,
 } = require('next/dist/build/webpack/plugins/mini-css-extract-plugin/src');
 
-const withTM = require('next-transpile-modules')(['dessert-box']);
+const withTM = require('next-transpile-modules')(['@dessert-box/react']);
 const images = require('remark-images');
 const emoji = require('remark-emoji');
 

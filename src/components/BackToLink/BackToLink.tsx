@@ -28,6 +28,7 @@ const BackToLink: React.FC<Props> = ({ children, href }) => {
             bottom: 0,
             borderBottomRightRadius: 4,
             boxShadow: '0px -1px 17px 1px rgba(90,90,90,0.65)',
+            userSelect: 'none',
           }}
         >
           {children}
