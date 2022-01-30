@@ -1,13 +1,15 @@
-import { createBox } from 'dessert-box';
+import { createBox } from '@dessert-box/react';
 import React from 'react';
 
 import { atoms } from './atoms.css';
 
-const BaseBox = createBox(atoms);
+const BaseBox = createBox({ atoms });
+
+// type A =
 
 export type Props = React.ComponentProps<typeof BaseBox>;
 
-const Box = (props: Props) => {
+export const Box = (props: Props) => {
   return <BaseBox {...props} />;
 };
 

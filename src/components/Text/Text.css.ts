@@ -1,25 +1,15 @@
+import { createStyleObject } from '@capsizecss/core';
+import majorMono from '@capsizecss/metrics/majorMonoDisplay';
+import slabo13px from '@capsizecss/metrics/slabo13px';
 import { style, styleVariants } from '@vanilla-extract/css';
-import capsize from 'capsize';
 
 const fontMetrics = {
-  majorMono: {
-    capHeight: 696,
-    ascent: 900,
-    descent: -100,
-    lineGap: 0,
-    unitsPerEm: 1000,
-  },
-  slabo13px: {
-    capHeight: 540,
-    ascent: 720,
-    descent: -240,
-    lineGap: 0,
-    unitsPerEm: 780,
-  },
+  majorMono,
+  slabo13px,
 };
 
 const getStyles = (options: { fontSize: number; lineGap: number }) =>
-  capsize({
+  createStyleObject({
     fontMetrics: fontMetrics.majorMono,
     ...options,
   });
@@ -43,4 +33,10 @@ export const variants = styleVariants({
       },
     },
   },
+});
+
+export const inherit = style({
+  fontFamily: 'inherit',
+  lineHeight: 'inherit',
+  color: 'inherit',
 });

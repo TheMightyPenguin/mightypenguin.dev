@@ -1,5 +1,16 @@
+import {
+  crimson,
+  gray,
+  lime,
+  mauve,
+  mauveDark,
+  mint,
+  orange,
+  sky,
+  tomato,
+} from '@radix-ui/colors';
 import { createGlobalTheme } from '@vanilla-extract/css';
-import { createAtomicStyles, createAtomsFn } from '@vanilla-extract/sprinkles';
+import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles';
 import { modularScale } from 'polished';
 
 const createScale = (ratio: number, base: number) => (steps: number) =>
@@ -10,7 +21,104 @@ const fontSizeScale = createScale(1.3, 16);
 const lineHeightScale = createScale(1.25, 24);
 const borderRadiusScale = createScale(1.5, 4);
 
+const rawColors = {
+  crimson,
+  mauve,
+  mauveDark,
+  gray,
+  mint,
+  sky,
+  lime,
+  orange,
+  tomato,
+};
+
+type ColorSteps =
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | '10'
+  | '11'
+  | '12';
+
+type ColorUseCases =
+  | 'Background'
+  | 'SubtleBackground'
+  | 'ElementBackground'
+  | 'HoveredElementBackground'
+  | 'FocusedElementBackground'
+  | 'Border'
+  | 'FocusedBorder'
+  | 'HoveredBorder'
+  | 'SolidBackground'
+  | 'HoveredSolidBackground'
+  | 'LowContrastText'
+  | 'HighContrastText';
+
+const colorStepToUseCaseMapping: Record<ColorSteps, ColorUseCases> = {
+  '1': 'Background',
+  '2': 'SubtleBackground',
+  '3': 'ElementBackground',
+  '4': 'HoveredElementBackground',
+  '5': 'FocusedElementBackground',
+  '6': 'Border',
+  '7': 'FocusedBorder',
+  '8': 'HoveredBorder',
+  '9': 'SolidBackground',
+  '10': 'HoveredSolidBackground',
+  '11': 'LowContrastText',
+  '12': 'HighContrastText',
+};
+
+function createSemanticColorPalette<T extends string>(
+  paletteName: T,
+  colors: Record<`${string}${ColorSteps}`, string>,
+) {
+  const keys = Object.keys(
+    colors,
+  ) as unknown as Array<`${string}${ColorSteps}`>;
+
+  const palette = keys.reduce((semanticPalette, currentKey) => {
+    const [step] = currentKey.match(/\d+/) ?? [];
+    if (!step) {
+      throw new Error(
+        `Error getting step from ${currentKey}, building ${semanticPalette} palette`,
+      );
+    }
+    const a = colorStepToUseCaseMapping[step as ColorSteps];
+    semanticPalette[
+      `${paletteName}${colorStepToUseCaseMapping[step as ColorSteps]}`
+    ] = colors[currentKey];
+    return semanticPalette;
+  }, {} as Record<`${T}${ColorUseCases}`, string>);
+
+  return palette;
+}
+
+const colors = {
+  ...createSemanticColorPalette('primary', rawColors.crimson),
+  ...createSemanticColorPalette('success', rawColors.lime),
+  ...createSemanticColorPalette('error', rawColors.tomato),
+  ...createSemanticColorPalette('info', rawColors.sky),
+  ...createSemanticColorPalette('warning', rawColors.orange),
+  ...createSemanticColorPalette('grayscale', rawColors.gray),
+
+  darkText: rawColors.mauve.mauve12,
+  lowContrastDarkText: rawColors.mauve.mauve11,
+
+  lightText: rawColors.mauveDark.mauve12,
+  lowContrastLightText: rawColors.mauveDark.mauve11,
+};
+
 const theme = {
+  rawColors,
+  colors,
   space: {
     none: '0',
     '0x': spaceScale(0),
@@ -22,6 +130,12 @@ const theme = {
     '6x': spaceScale(6),
     '7x': spaceScale(7),
     '8x': spaceScale(8),
+
+    '4px': '4px',
+    '8px': '8px',
+    '16px': '16px',
+    '24px': '24px',
+    '32px': '32px',
   },
   borderRadius: {
     '0x': borderRadiusScale(0),
@@ -33,8 +147,14 @@ const theme = {
     full: '99999px',
   },
   fontFamily: {
-    body:
+    system:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    accent: '"Bebas Neue", cursive',
+  },
+  letterSpacing: {
+    normal: 'normal',
+    '1px': '1px',
+    '2px': '2px',
   },
   fontSize: {
     '0x': fontSizeScale(0),
@@ -56,7 +176,7 @@ const theme = {
 
 const vars = createGlobalTheme(':root', theme);
 
-const responsiveStyles = createAtomicStyles({
+const responsiveStyles = defineProperties({
   conditions: {
     mobile: {},
     tablet: { '@media': 'screen and (min-width: 768px)' },
@@ -64,7 +184,7 @@ const responsiveStyles = createAtomicStyles({
   },
   defaultCondition: 'mobile',
   properties: {
-    display: ['none', 'flex'],
+    display: ['none', 'flex', 'inline'],
     flexDirection: ['row', 'column'],
     flexWrap: ['wrap', 'nowrap'],
     alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
@@ -86,6 +206,7 @@ const responsiveStyles = createAtomicStyles({
     fontFamily: vars.fontFamily,
     fontSize: vars.fontSize,
     lineHeight: vars.lineHeight,
+    letterSpacing: vars.letterSpacing,
     textAlign: ['center'],
   },
   shorthands: {
@@ -97,4 +218,14 @@ const responsiveStyles = createAtomicStyles({
   },
 });
 
-export const atoms = createAtomsFn(responsiveStyles);
+const colorStyles = defineProperties({
+  properties: {
+    background: {
+      steamBackground: 'rgb(38, 39, 58)',
+      ...theme.colors,
+    },
+    color: theme.colors,
+  },
+});
+
+export const atoms = createSprinkles(responsiveStyles, colorStyles);

@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
+
+import { Box, Props as BoxProps } from '@/components/Box/Box';
 
 import * as styles from './Text.css';
 
 type Props = {
   size?: keyof typeof styles.variants;
-} & React.ComponentProps<'p'>;
+  color?: BoxProps['color'];
+  fontFamily?: BoxProps['fontFamily'];
+  letterSpacing?: BoxProps['letterSpacing'];
+} & React.ComponentPropsWithRef<'p'>;
 
-const Text: React.FC<Props> = ({ size = 'small', children, ...otherProps }) => {
+const InTextContext = createContext<boolean>(false);
+
+export const Text: React.FC<Props> = (props) => {
+  const {
+    size = 'small',
+    children,
+    color = 'darkText',
+    fontFamily = 'system',
+    letterSpacing = 'normal',
+    ...otherProps
+  } = props;
+  const isNestedText = useContext(InTextContext);
+
   return (
-    <p {...otherProps} className={`${styles.variants[size]} ${styles.reset}`}>
-      {children}
-    </p>
+    <InTextContext.Provider value={true}>
+      <Box
+        // @ts-ignore
+        as={isNestedText ? 'span' : 'p'}
+        display={isNestedText ? 'inline' : undefined}
+        {...otherProps}
+        className={
+          isNestedText
+            ? styles.inherit
+            : `${styles.variants[size]} ${styles.reset}`
+        }
+        letterSpacing={letterSpacing}
+        fontFamily={fontFamily}
+        color={color}
+      >
+        {children}
+      </Box>
+    </InTextContext.Provider>
   );
 };
 
