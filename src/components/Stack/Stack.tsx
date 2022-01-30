@@ -19,7 +19,7 @@ const horizontalAlignmentToFlex: Record<
   spaced: undefined,
 };
 
-const Stack: React.FC<Props> = ({ children, space, xAlign }) => {
+export const Stack: React.FC<Props> = ({ children, space, xAlign }) => {
   return (
     <Box
       alignItems={horizontalAlignmentToFlex[xAlign!]}

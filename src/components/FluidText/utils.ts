@@ -1,4 +1,4 @@
-import capsize from 'capsize';
+import { createStyleObject } from '@capsizecss/core';
 
 import { clamp } from '@/utils/math';
 
@@ -32,7 +32,7 @@ export const getFontStyles = ({
     clamp(screenWidth * targetPercentage, minFontSize, maxFontSize),
   );
 
-  const capsizeStyles = capsize({
+  const capsizeStyles = createStyleObject({
     fontMetrics: vollkornFontMetrics,
     fontSize,
     lineGap,
