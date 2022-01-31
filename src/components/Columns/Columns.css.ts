@@ -1,3 +1,3 @@
 import { style } from '@vanilla-extract/css';
 
-export const;
+export const columns = style({});
