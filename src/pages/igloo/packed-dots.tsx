@@ -3,8 +3,10 @@ import React, { useReducer } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
 import PackedDots from '@/components/canvas/PackedDots/PackedDots';
+import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
 const PackedDotsPage = () => {
+  useIgnoreScroll();
   const [count, increment] = useReducer((c) => c + 1, 0);
 
   const colors = {

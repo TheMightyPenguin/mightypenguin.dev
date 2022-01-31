@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import NodeParticles from '@/components/canvas/NodeParticles/NodeParticles';
 import Footer from '@/components/Footer/Footer';
+import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
 const useRemoveOnInteraction = () => {
+  useIgnoreScroll();
   const [show, setShow] = useState(true);
 
   useEffect(() => {

@@ -4,24 +4,13 @@ import React, { ComponentProps, useEffect, useReducer, useState } from 'react';
 import BackToLink from '@/components/BackToLink/BackToLink';
 import { Box } from '@/components/Box/Box';
 import RainbowPath from '@/components/canvas/RainbowPath/RainbowPath';
+import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
 type Mode = ComponentProps<typeof RainbowPath>['mode'];
 type ParsedFormula = ComponentProps<typeof RainbowPath>['getCursorFn'];
 
 function modeReducer(currentState: Mode): Mode {
   return currentState === 'draw' ? 'formula' : 'draw';
-}
-
-function useIgnoreScroll() {
-  useEffect(() => {
-    function preventDefault(event: Event) {
-      event.preventDefault();
-    }
-    window.addEventListener('wheel', preventDefault);
-    return () => {
-      window.removeEventListener('wheel', preventDefault);
-    };
-  });
 }
 
 const RainbowPathPage = () => {
