@@ -32,7 +32,7 @@ const RainbowPath: React.FC<Props> = ({
         p5Instance.remove();
       });
     };
-  }, [containerRef, sketchOptions.mode, sketchOptions.formula]);
+  }, [containerRef, sketchOptions.mode, sketchOptions.getCursorFn]);
 
   const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,

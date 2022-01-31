@@ -11,17 +11,19 @@ export type BaseSketchOptions = {
 
 export type SketchOptions = BaseSketchOptions & {
   mode: 'draw' | 'formula';
-  formula: string;
+  getCursorFn: GetPositionFn;
 };
 
-type GetPositionFn = (deltaTime: number) => [x: number, y: number];
+type GetPositionFn = (deltaTime: number) => number;
+
+type CursorFn = (deltaTime: number) => [x: number, y: number];
 
 const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   const mode = sketchOptions.mode;
-  const getCursorFn: GetPositionFn =
+  const getCursorFn: CursorFn =
     mode === 'draw'
       ? () => [p.mouseX, p.mouseY]
-      : (x: number) => [x, Math.sin(x / 55) * 100 + p.height / 2];
+      : (x: number) => [x, sketchOptions.getCursorFn(x) * 100 + p.height / 2];
   const brush = new Brush(p, getCursorFn);
 
   const getCanvasDimensions = () => {
@@ -61,7 +63,7 @@ class Brush {
   private colors: Array<p5.Color>;
   private x = 0;
 
-  constructor(private p: p5, private getCursor: GetPositionFn) {
+  constructor(private p: p5, private getCursor: CursorFn) {
     this.colors = [
       p.color(20, 36, 133),
       p.color(28, 54, 117),
@@ -94,7 +96,6 @@ class Brush {
     }
 
     const [x, y] = this.getCursor(this.x);
-    console.log(x, y);
     this.prevMousePositions.push([x, y]);
   }
 
