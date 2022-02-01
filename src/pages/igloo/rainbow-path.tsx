@@ -15,7 +15,7 @@ function modeReducer(currentState: Mode): Mode {
 
 const RainbowPathPage = () => {
   const [mode, toggleMode] = useReducer(modeReducer, 'formula');
-  const [formula, setFormula] = useState('sin(x)');
+  const [formula, setFormula] = useState('sin(x / 55)');
   const [parsedFormula, setParsedFormula] = useState<ParsedFormula>(
     () => (x: number) => Math.sin(x / 55),
   );
@@ -54,8 +54,6 @@ const RainbowPathPage = () => {
       return (x: number) => x;
     }
   };
-
-  console.log(parsedFormula);
 
   return (
     <React.Fragment>
