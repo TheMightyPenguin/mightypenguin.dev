@@ -55,7 +55,7 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   };
 
   p.keyPressed = () => {
-    if (p.keyCode === 82) {
+    if (p.key === 'r') {
       brush.toggleColors();
     }
   };
@@ -67,8 +67,8 @@ class Brush {
   private prevMousePositions: Array<[x: number, y: number]> = [];
   private prevMouseMovedX: Array<number> = [];
   private memory = 30;
-  private colors: Array<p5.Color>;
-  private colorSet: Array<Array<p5.Color>>;
+  private colors: Array<p5.Color | string>;
+  private colorSet: Array<Array<p5.Color | string>>;
   private x = 0;
 
   constructor(
@@ -77,7 +77,6 @@ class Brush {
     private mode: SketchOptions['mode'],
   ) {
     this.colorSet = [
-      [p.color(20, 36, 133)],
       [
         p.color(20, 36, 133),
         p.color(28, 54, 117),
@@ -103,6 +102,7 @@ class Brush {
         p.color(68, 36, 52),
         p.color(59, 46, 91),
       ],
+      ['#ff0032', '#ff8100', '#fffd60', '#00d700', '#009bff', '#8900fc'],
     ];
 
     this.colors = this.colorSet[2];
@@ -127,21 +127,17 @@ class Brush {
       const mouseMovementAmt = this.prevMouseMovedX.reduce((acc, pos) => {
         return acc + pos;
       }, 0);
-      const mouseIsStale = this.mode === 'draw' && mouseMovementAmt === 0;
+      const mouseIsStale = mouseMovementAmt === 0;
 
+      console.log({ mouseIsStale });
       if (this.prevMousePositions.length > this.memory || mouseIsStale) {
         this.prevMousePositions.shift();
+        this.prevMouseMovedX.shift();
       }
 
-      // if (this.prevMouseMovedX.length > this.memory) {
-      //   this.prevMouseMovedX.shift();
-      // }
-
-      // if (mouseIsStale) {
-      //   return;
-      // }
-
-      this.prevMousePositions.push([x, y]);
+      if (!mouseIsStale) {
+        this.prevMousePositions.push([x, y]);
+      }
     } else {
       if (this.x > p.width + 400) {
         this.prevMousePositions.length = 0;
