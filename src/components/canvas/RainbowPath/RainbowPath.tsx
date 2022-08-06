@@ -10,14 +10,9 @@ const renderAnimation = async (
   return new p5(sketch(sketchOptions), container);
 };
 
-type Props = SketchOptions & {
-  disableScroll?: boolean;
-};
+type Props = SketchOptions & {};
 
-const RainbowPath: React.FC<Props> = ({
-  disableScroll = true,
-  ...sketchOptions
-}) => {
+const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,7 +32,6 @@ const RainbowPath: React.FC<Props> = ({
   const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
-    touchAction: disableScroll ? 'none' : undefined,
   };
 
   return <div style={style} ref={containerRef} />;

@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { MathJsStatic } from 'mathjs';
 import React, { ComponentProps, useEffect, useReducer, useState } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import { Box } from '@/components/Box/Box';
 import RainbowPath from '@/components/canvas/RainbowPath/RainbowPath';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
@@ -14,7 +14,7 @@ function modeReducer(currentState: Mode): Mode {
 }
 
 const RainbowPathPage = () => {
-  const [mode, toggleMode] = useReducer(modeReducer, 'formula');
+  const [mode, toggleMode] = useReducer(modeReducer, 'draw');
   const [formula, setFormula] = useState('sin(x / 55)');
   const [parsedFormula, setParsedFormula] = useState<ParsedFormula>(
     () => (x: number) => Math.sin(x / 55),
@@ -24,18 +24,11 @@ const RainbowPathPage = () => {
   useIgnoreScroll();
 
   useEffect(() => {
-    document.addEventListener('click', toggleMode);
-    return () => {
-      document.removeEventListener('click', toggleMode);
-    };
-  });
-
-  useEffect(() => {
     // load mathjs lazily
     import('mathjs').then(setMath);
   }, []);
 
-  // TODO: implement math formula parsing to JS function
+  // TODO: implement formula based movement?
   const parseFormula: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     if (!math) return '';
     setFormula(event.target.value);
@@ -64,43 +57,6 @@ const RainbowPathPage = () => {
         height="full"
       />
       <BackToLink href="/igloo">Back to Igloo</BackToLink>
-      <Box
-        style={{
-          position: 'absolute',
-          bottom: '32px',
-          right: '32px',
-          background: 'white',
-          boxShadow: '0 0 8px rgba(0, 0, 0, 0.25)',
-          padding: '16px',
-          borderRadius: '6px',
-          userSelect: 'none',
-        }}
-        onClick={() => toggleMode()}
-      >
-        Click to toggle draw/visualize
-        <div>Mode: {mode === 'draw' ? 'Draw' : 'Visualize'}</div>
-      </Box>
-      <Box
-        style={{
-          position: 'absolute',
-          bottom: '32px',
-          right: '50%',
-          background: 'white',
-          transform: 'translateX(-50%)',
-          boxShadow: '0 0 8px rgba(0, 0, 0, 0.25)',
-          padding: '16px',
-          borderRadius: '6px',
-          userSelect: 'none',
-        }}
-      >
-        <input
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          value={formula}
-          onChange={parseFormula}
-        />
-      </Box>
     </React.Fragment>
   );
 };

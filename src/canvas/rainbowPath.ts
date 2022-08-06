@@ -24,7 +24,7 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     mode === 'draw'
       ? () => [p.mouseX, p.mouseY]
       : (x: number) => [x, sketchOptions.getCursorFn(x) * 100 + p.height / 2];
-  const brush = new Brush(p, getCursorFn);
+  const brush = new Brush(p, getCursorFn, mode);
 
   const getCanvasDimensions = () => {
     const width =
@@ -53,65 +53,122 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     brush.update();
     brush.draw();
   };
+
+  p.keyPressed = () => {
+    if (p.keyCode === 82) {
+      brush.toggleColors();
+    }
+  };
 };
 
 export { sketch };
 
 class Brush {
   private prevMousePositions: Array<[x: number, y: number]> = [];
+  private prevMouseMovedX: Array<number> = [];
   private memory = 30;
   private colors: Array<p5.Color>;
+  private colorSet: Array<Array<p5.Color>>;
   private x = 0;
 
-  constructor(private p: p5, private getCursor: CursorFn) {
-    this.colors = [
-      p.color(20, 36, 133),
-      p.color(28, 54, 117),
-      p.color(24, 66, 78),
-      p.color(29, 92, 55),
-      p.color(63, 138, 59),
-      p.color(119, 184, 54),
-      p.color(225, 218, 51),
-      p.color(220, 180, 34),
-      p.color(212, 114, 11),
-      p.color(161, 36, 10),
-      p.color(127, 19, 18),
-      p.color(86, 29, 46),
-      p.color(68, 36, 52),
-      p.color(59, 46, 91),
+  constructor(
+    private p: p5,
+    private getCursor: CursorFn,
+    private mode: SketchOptions['mode'],
+  ) {
+    this.colorSet = [
+      [p.color(20, 36, 133)],
+      [
+        p.color(20, 36, 133),
+        p.color(28, 54, 117),
+        p.color(24, 66, 78),
+        p.color(29, 92, 55),
+        p.color(63, 138, 59),
+        p.color(119, 184, 54),
+        p.color(225, 218, 51),
+        p.color(220, 180, 34),
+        p.color(212, 114, 11),
+        p.color(161, 36, 10),
+        p.color(127, 19, 18),
+        p.color(86, 29, 46),
+        p.color(68, 36, 52),
+        p.color(59, 46, 91),
+      ],
+      [
+        p.color(220, 180, 34),
+        p.color(212, 114, 11),
+        p.color(161, 36, 10),
+        p.color(127, 19, 18),
+        p.color(86, 29, 46),
+        p.color(68, 36, 52),
+        p.color(59, 46, 91),
+      ],
     ];
+
+    this.colors = this.colorSet[2];
+  }
+
+  toggleColors() {
+    const nextIndex =
+      (this.colorSet.findIndex((value) => value === this.colors) + 1) %
+      this.colorSet.length;
+    this.colors = this.colorSet[nextIndex];
   }
 
   update() {
     const p = this.p;
     this.x = this.x + p.deltaTime * 0.001 * 400;
-
-    if (this.x > p.width + 400) {
-      this.prevMousePositions.length = 0;
-      this.x = 0;
-    }
-
-    if (this.prevMousePositions.length > this.memory) {
-      this.prevMousePositions.shift();
-    }
-
     const [x, y] = this.getCursor(this.x);
-    this.prevMousePositions.push([x, y]);
+
+    if (this.mode === 'draw') {
+      // @ts-expect-error movedX and movedY exist but are not typed in p5 package
+      this.prevMouseMovedX.push(p.movedX + p.movedY);
+
+      const mouseMovementAmt = this.prevMouseMovedX.reduce((acc, pos) => {
+        return acc + pos;
+      }, 0);
+      const mouseIsStale = this.mode === 'draw' && mouseMovementAmt === 0;
+
+      if (this.prevMousePositions.length > this.memory || mouseIsStale) {
+        this.prevMousePositions.shift();
+      }
+
+      // if (this.prevMouseMovedX.length > this.memory) {
+      //   this.prevMouseMovedX.shift();
+      // }
+
+      // if (mouseIsStale) {
+      //   return;
+      // }
+
+      this.prevMousePositions.push([x, y]);
+    } else {
+      if (this.x > p.width + 400) {
+        this.prevMousePositions.length = 0;
+        this.x = 0;
+      }
+    }
   }
 
   getPathDefinition(offset: number) {
-    const smoothStroke = getStroke(this.prevMousePositions);
+    if (this.prevMousePositions.length === 0) {
+      return new Path2D('M 0 0 Z');
+    }
 
-    const pathString = smoothStroke
-      .map(([x, y]) => [x, y + offset * (LINE_SIZE - 2)])
-      .reduce(
-        (acc, [x0, y0], i, arr) => {
-          const [x1, y1] = arr[(i + 1) % arr.length];
-          acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2);
-          return acc;
-        },
-        ['M', ...smoothStroke[0], 'Q'],
-      );
+    const offsetPositions = this.prevMousePositions.map(([x, y]) => [
+      x,
+      y + offset * (LINE_SIZE - 2),
+    ]);
+    const smoothStroke = getStroke(offsetPositions);
+
+    const pathString = smoothStroke.reduce(
+      (acc, [x0, y0], i, arr) => {
+        const [x1, y1] = arr[(i + 1) % arr.length];
+        acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2);
+        return acc;
+      },
+      ['M', ...smoothStroke[0], 'Q'],
+    );
 
     pathString.push('Z');
     return new Path2D(pathString.join(' '));
