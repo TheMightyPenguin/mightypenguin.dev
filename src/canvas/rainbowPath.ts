@@ -67,8 +67,8 @@ class Brush {
   private prevMousePositions: Array<[x: number, y: number]> = [];
   private prevMouseMovedX: Array<number> = [];
   private memory = 30;
-  private colors: Array<p5.Color | string>;
-  private colorSet: Array<Array<p5.Color | string>>;
+  private colors: Array<p5.Color>;
+  private colorSet: Array<Array<p5.Color>>;
   private x = 0;
 
   constructor(
@@ -102,7 +102,14 @@ class Brush {
         p.color(68, 36, 52),
         p.color(59, 46, 91),
       ],
-      ['#ff0032', '#ff8100', '#fffd60', '#00d700', '#009bff', '#8900fc'],
+      [
+        p.color('#ff0032'),
+        p.color('#ff8100'),
+        p.color('#fffd60'),
+        p.color('#00d700'),
+        p.color('#009bff'),
+        p.color('#8900fc'),
+      ],
     ];
 
     this.colors = this.colorSet[2];
