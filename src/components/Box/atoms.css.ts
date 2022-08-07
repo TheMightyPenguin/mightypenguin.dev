@@ -91,7 +91,6 @@ function createSemanticColorPalette<T extends string>(
         `Error getting step from ${currentKey}, building ${semanticPalette} palette`,
       );
     }
-    const a = colorStepToUseCaseMapping[step as ColorSteps];
     semanticPalette[
       `${paletteName}${colorStepToUseCaseMapping[step as ColorSteps]}`
     ] = colors[currentKey];

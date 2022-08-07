@@ -14,7 +14,7 @@ function useSteamCurrentlyPlaying() {
   return useQuery('steamCurrenlyPlaying', fetchSteamCurrentlyPlaying);
 }
 
-function getGameImageUrl(game: any) {
+function getGameImageUrl(game: { appid: string; img_icon_url: string }) {
   return `http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`;
 }
 

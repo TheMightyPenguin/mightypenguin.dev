@@ -59,6 +59,7 @@ type SketchDeviceConfiguration = {
 };
 
 export type SketchOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getInitialPositions?: any;
   hideLines?: boolean;
   stopParticles?: boolean;

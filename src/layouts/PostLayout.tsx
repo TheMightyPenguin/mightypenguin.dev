@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Components, MDXProvider } from '@mdx-js/react';
 import React from 'react';
 

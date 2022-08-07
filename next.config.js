@@ -6,61 +6,14 @@
 const withMdxEnhanced = require('next-mdx-enhanced');
 const withPlugins = require('next-compose-plugins');
 
-const { VanillaExtractPlugin } = require('@vanilla-extract/webpack-plugin');
-const {
-  getGlobalCssLoader,
-} = require('next/dist/build/webpack/config/blocks/css/loaders');
-const {
-  default: MiniCssExtractPlugin,
-} = require('next/dist/build/webpack/plugins/mini-css-extract-plugin/src');
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
+const withVanillaExtract = createVanillaExtractPlugin();
 
 const withTM = require('next-transpile-modules')(['@dessert-box/react']);
 const images = require('remark-images');
 const emoji = require('remark-emoji');
 
 const nextConfig = {
-  future: {},
-
-  webpack(config, options) {
-    const { dev, isServer } = options;
-
-    config.module.rules.push({
-      test: /\.css$/i,
-      sideEffects: true,
-      use: dev
-        ? getGlobalCssLoader(
-            {
-              assetPrefix: options.config.assetPrefix,
-              future: {},
-              isClient: !isServer,
-              isServer,
-              isDevelopment: dev,
-            },
-            [],
-            [],
-          )
-        : [MiniCssExtractPlugin.loader, 'css-loader'],
-    });
-
-    const plugins = [];
-
-    plugins.push(new VanillaExtractPlugin());
-
-    if (!dev) {
-      plugins.push(
-        new MiniCssExtractPlugin({
-          filename: 'static/css/[contenthash].css',
-          chunkFilename: 'static/css/[contenthash].css',
-          ignoreOrder: true,
-        }),
-      );
-    }
-
-    config.plugins.push(...plugins);
-
-    return config;
-  },
-
   async rewrites() {
     return [
       {
@@ -73,6 +26,7 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
+    withVanillaExtract,
     withMdxEnhanced({
       layoutPath: 'src/layouts',
       fileExtensions: ['mdx'],

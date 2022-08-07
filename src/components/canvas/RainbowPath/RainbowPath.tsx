@@ -10,7 +10,7 @@ const renderAnimation = async (
   return new p5(sketch(sketchOptions), container);
 };
 
-type Props = SketchOptions & {};
+type Props = SketchOptions;
 
 const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
   const containerRef = useRef<HTMLDivElement>(null);
