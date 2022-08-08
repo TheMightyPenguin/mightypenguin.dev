@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Components, MDXProvider } from '@mdx-js/react';
+import { MDXProvider } from '@mdx-js/react';
+import { MDXComponents } from 'mdx/types';
 import React from 'react';
 
 import FluidText from '@/components/FluidText/FluidText';
 import Stack from '@/components/Stack/Stack';
 
-const mdxComponents: Components = {
+const mdxComponents: MDXComponents = {
   // eslint-disable-next-line jsx-a11y/heading-has-content
   h1: (props: any) => <h1 {...props} style={{ color: 'red' }} />,
   p: (props: any) => (
