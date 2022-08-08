@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-type Props = {
+type Props = PropsWithChildren<{
   href: React.ComponentProps<typeof Link>['href'];
-};
+}>;
 
 const BackToLink: React.FC<Props> = ({ children, href }) => {
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { useWindowSize } from '@/hooks/useWindowSize';
 import theme from '@/theme/theme';
@@ -14,7 +14,7 @@ type Props = {
   lineGap?: number;
 };
 
-const FluidText: React.FC<Props> = ({
+const FluidText: React.FC<PropsWithChildren<Props>> = ({
   children,
   minSize,
   maxSize,

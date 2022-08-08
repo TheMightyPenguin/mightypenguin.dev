@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MDXProvider } from '@mdx-js/react';
 import { MDXComponents } from 'mdx/types';
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
 import FluidText from '@/components/FluidText/FluidText';
 import Stack from '@/components/Stack/Stack';
@@ -21,7 +21,7 @@ const mdxComponents: MDXComponents = {
 };
 
 // this might be failing due to the mdx package, replace it with another one
-const PostLayout: React.FC = ({ children }) => {
+const PostLayout: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   return (
     <div
       style={{

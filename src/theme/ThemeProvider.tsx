@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC, Fragment, PropsWithChildren } from 'react';
 
-const ThemeProvider: React.FC = ({ children }) => {
-  return <React.Fragment>{children}</React.Fragment>;
+const ThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
+  return <Fragment>{children}</Fragment>;
 };
 
 export default ThemeProvider;

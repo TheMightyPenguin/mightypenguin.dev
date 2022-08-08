@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import useToggle from '../../hooks/useToggle';
 
-const CanvasEmbed: React.FC<{ height?: number }> = ({ children, height }) => {
+const CanvasEmbed: React.FC<PropsWithChildren<{ height?: number }>> = ({
+  children,
+  height,
+}) => {
   const [show, toggle] = useToggle(true);
 
   const handleClick = () => {

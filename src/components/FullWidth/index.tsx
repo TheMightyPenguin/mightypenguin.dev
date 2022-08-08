@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-const FullWidth: React.FC = ({ children }) => {
+const FullWidth: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   return (
     <div
       style={{

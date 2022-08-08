@@ -1,12 +1,17 @@
-import React, { Children, cloneElement, isValidElement } from 'react';
+import React, {
+  Children,
+  cloneElement,
+  isValidElement,
+  PropsWithChildren,
+} from 'react';
 
 import Box, { Props as BoxProps } from '@/components/Box/Box';
 import { HorizontalAlignment } from '@/theme/types';
 
-type Props = {
+type Props = PropsWithChildren<{
   space: React.ComponentProps<typeof Box>['paddingTop'];
   xAlign?: HorizontalAlignment;
-};
+}>;
 
 const horizontalAlignmentToFlex: Record<
   HorizontalAlignment,
