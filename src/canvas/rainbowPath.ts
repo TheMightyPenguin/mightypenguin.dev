@@ -65,7 +65,7 @@ export { sketch };
 
 class Brush {
   private prevMousePositions: Array<[x: number, y: number]> = [];
-  private prevMouseMovedX: Array<number> = [];
+  private prevMouseMoved: Array<number> = [];
   private memory = 30;
   private colors: Array<p5.Color>;
   private colorSet: Array<Array<p5.Color>>;
@@ -129,17 +129,19 @@ class Brush {
 
     if (this.mode === 'draw') {
       // @ts-expect-error movedX and movedY exist but are not typed in p5 package
-      this.prevMouseMovedX.push(p.movedX + p.movedY);
+      this.prevMouseMoved.push(p.movedX + p.movedY);
 
-      const mouseMovementAmt = this.prevMouseMovedX.reduce((acc, pos) => {
+      const mouseMovementAmt = this.prevMouseMoved.reduce((acc, pos) => {
         return acc + pos;
       }, 0);
       const mouseIsStale = mouseMovementAmt === 0;
 
-      console.log({ mouseIsStale });
+      if (this.prevMouseMoved.length > this.memory / 2) {
+        this.prevMouseMoved.shift();
+      }
+
       if (this.prevMousePositions.length > this.memory || mouseIsStale) {
         this.prevMousePositions.shift();
-        this.prevMouseMovedX.shift();
       }
 
       if (!mouseIsStale) {
