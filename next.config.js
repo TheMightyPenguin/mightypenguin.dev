@@ -2,18 +2,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const images = require('remark-images');
+const emoji = require('remark-emoji');
+
 // @ts-nocheck
-const withMdxEnhanced = require('next-mdx-enhanced');
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [images, emoji],
+    rehypePlugins: [],
+    providerImportSource: '@mdx-js/react',
+  },
+});
 const withPlugins = require('next-compose-plugins');
 
 const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
 const withVanillaExtract = createVanillaExtractPlugin();
 
 const withTM = require('next-transpile-modules')(['@dessert-box/react']);
-const images = require('remark-images');
-const emoji = require('remark-emoji');
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   async rewrites() {
     return [
       {
@@ -24,18 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPlugins(
-  [
-    withVanillaExtract,
-    withMdxEnhanced({
-      layoutPath: 'src/layouts',
-      fileExtensions: ['mdx'],
-      remarkPlugins: [images, emoji],
-      rehypePlugins: [],
-      usesSrc: false,
-      reExportDataFetching: false,
-    }),
-    withTM,
-  ],
-  nextConfig,
-);
+module.exports = withPlugins([withVanillaExtract, withMDX, withTM], nextConfig);

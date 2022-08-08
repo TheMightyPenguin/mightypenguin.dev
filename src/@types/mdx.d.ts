@@ -50,5 +50,13 @@ declare module '*.mdx' {
     draft: boolean;
     __resourcePath: string;
   };
-  export let frontMatter: FrontMatter[];
+
+  // from https://github.com/jescalan/babel-plugin-import-glob-array#adding-import-metadata
+  type ImportMetadata = {
+    absolutePath: string;
+    importedPath: string;
+  };
+
+  export let meta: FrontMatter[];
+  export let _importMeta: ImportMetadata[];
 }

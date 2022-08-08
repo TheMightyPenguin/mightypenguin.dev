@@ -19,6 +19,7 @@ const mdxComponents: Components = {
   ),
 };
 
+// this might be failing due to the mdx package, replace it with another one
 const PostLayout: React.FC = ({ children }) => {
   return (
     <div

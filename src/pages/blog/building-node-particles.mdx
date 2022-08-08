@@ -1,15 +1,16 @@
----
-layout: PostLayout
-title: Building node particles experiment
-publishedAt: 2021-02-05
-summary: A summary of I build the node particles experiment
-state: draft
----
-
+import PostLayout from '../../layouts/PostLayout';
 import CanvasEmbed from '../../components/CanvasEmbed';
 import NodeParticles from '../../components/canvas/NodeParticles/NodeParticles';
 import { getInitialState } from '../../canvas/nodeParticles';
 import { getRandomPoint, getRandomPositionFromPoint } from '../../utils/math';
+
+export const meta = {
+  layout: PostLayout,
+  title: 'Building node particles experiment',
+  publishedAt: '2021-02-05',
+  summary: 'A summary of I build the node particles experiment',
+  state: 'draft',
+};
 
 # Building Node Particles
 

@@ -1,12 +1,14 @@
----
-layout: PostLayout
-title: Locking body scroll
-publishedAt: 2021-06-08
-summary: How to lock body scroll when showing an overlay UI (Modal, ...)
-state: draft
----
+import PostLayout from '../../layouts/PostLayout';
 
 # Locking body scroll
+
+export const meta = {
+  layout: PostLayout,
+  title: 'Locking body scroll',
+  publishedAt: '2021-06-08',
+  summary: 'How to lock body scroll when showing an overlay UI (Modal, ...)',
+  state: 'draft',
+};
 
 When we show an overlay-like UI (Modal, ...) it's common that we want to lock the body scroll, to prevent users from interacting with it while this UI is open.
 
