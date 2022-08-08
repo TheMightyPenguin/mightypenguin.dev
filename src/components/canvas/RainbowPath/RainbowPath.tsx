@@ -32,6 +32,7 @@ const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
   const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
+    touchAction: 'none',
   };
 
   return <div style={style} ref={containerRef} />;
