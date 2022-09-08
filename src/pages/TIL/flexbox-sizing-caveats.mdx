@@ -1,0 +1,19 @@
+import PostLayout from '../../layouts/PostLayout';
+import CanvasEmbed from '../../components/CanvasEmbed';
+import SvgPathExample from '../../components/TIL/SvgPathExample';
+
+export const meta = {
+  layout: PostLayout,
+  title: 'Flexbox sizing caveats',
+  publishedAt: '2022-09-06',
+  summary:
+    'Different issues we could have when trying to render and size flex items.',
+  state: 'draft',
+};
+
+# Flexbox sizing caveats
+
+- Set `min-width: 0` for Flex items, as this helps with the default `min-width: auto` that they have by default. This causes flex items to override their parent width.
+  - https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+  - https://stackoverflow.com/a/66689926/6780670
+    - https://makandracards.com/makandra/66994-css-flex-and-min-width

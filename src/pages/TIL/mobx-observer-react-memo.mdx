@@ -1,0 +1,15 @@
+import PostLayout from '../../layouts/PostLayout';
+import CanvasEmbed from '../../components/CanvasEmbed';
+import SvgPathExample from '../../components/TIL/SvgPathExample';
+
+export const meta = {
+  layout: PostLayout,
+  title: 'Mobx auto applies react memo for you when using',
+  publishedAt: '2022-09-06',
+  summary: 'notes on mobx observer',
+  state: 'draft',
+};
+
+# Mobx `observer`
+
+Mobx already applies React.memo for you when calling the observer HoC: https://github.com/mobxjs/mobx-react/blob/master/src/observer.tsx#L30
