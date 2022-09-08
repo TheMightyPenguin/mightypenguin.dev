@@ -23,41 +23,32 @@ export function SteamCurrentlyPlaying() {
 
   if (isLoading) return null;
 
-  console.log({ data });
-
   return (
     <Box
-      background="steamBackground"
+      className={styles.container}
+      background="grayscaleBackground"
       display="flex"
       flexDirection="row"
       alignItems="center"
-      padding="3x"
-      borderRadius="2x"
+      borderStyle="solid"
+      borderColor="grayscaleHighContrastText"
+      borderWidth="1px"
     >
       <Box className={styles.gameIconContainer}>
         <img
-          style={{ width: '42px', height: '42px' }}
           className={styles.gameIcon}
           src={getGameImageUrl(data)}
           alt={data.name}
         />
       </Box>
-      <Stack space="8px" xAlign="center">
-        <Text
-          color="lowContrastLightText"
-          fontFamily="accent"
-          letterSpacing="1px"
-        >
-          Playing{' '}
-          <Text color="lightText" fontFamily="accent" letterSpacing="2px">
+      <Stack space="1x" xAlign="center">
+        <Text color="grayscaleHighContrastText">
+          {data.mode === 'currently_playing' ? 'Playing ' : 'Last played '}
+          <Text color="lightText" fontFamily="accent" letterSpacing="1px">
             {data.name}
           </Text>
         </Text>
-        <Text
-          color="lowContrastLightText"
-          fontFamily="accent"
-          letterSpacing="1px"
-        >
+        <Text color="grayscaleHighContrastText">
           {data.playtime_forever / 60} hours
         </Text>
       </Stack>

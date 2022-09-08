@@ -207,6 +207,8 @@ const responsiveStyles = defineProperties({
     lineHeight: vars.lineHeight,
     letterSpacing: vars.letterSpacing,
     textAlign: ['center'],
+    borderWidth: ['1px'],
+    borderStyle: ['solid'],
   },
   shorthands: {
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
@@ -224,6 +226,7 @@ const colorStyles = defineProperties({
       ...theme.colors,
     },
     color: theme.colors,
+    borderColor: theme.colors,
   },
 });
 
