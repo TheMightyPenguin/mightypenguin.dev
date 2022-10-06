@@ -1,3 +1,5 @@
+# :penguin:
+
 Code for [mightypenguin.dev](https://mightypenguin.dev)
 
 ## Running
