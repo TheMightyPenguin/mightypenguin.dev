@@ -60,15 +60,9 @@ const Home = () => {
               👋
             </span>
             ! I&apos;m a proactive Software Engineer that loves doing front-end.
-            I also{' '}
-            <Link href="/open-source">
-              <a>contribute to open source</a>
-            </Link>{' '}
+            I also <Link href="/open-source">contribute to open source</Link>{' '}
             from time to time, and enjoy making{' '}
-            <Link href="/igloo/node-particles">
-              <a>art with code</a>
-            </Link>
-            !
+            <Link href="/igloo/node-particles">art with code</Link>!
           </Text>
           <div style={{ height: 30 }} />
           <Text style={{ fontSize: 18 }}>
@@ -94,15 +88,13 @@ const Home = () => {
           }}
         >
           <Link href="/igloo">
-            <a>
+            <>
               <span role="img">❄</span>
               igloo
-            </a>
+            </>
           </Link>
           <div style={{ marginLeft: 16 }}>
-            <Link href="/open-source">
-              <a>open source</a>
-            </Link>
+            <Link href="/open-source">open source</Link>
           </div>
         </div>
       </Stack>

@@ -54,10 +54,8 @@ const Footer: React.FC<Props> = ({ overlay }) => {
     >
       <Inline space="none" yAlign="center" xAlign="spaced">
         <Link href="/">
-          <a>
-            <Home size={32} color="black" />
-            <span className="visually-hidden">home</span>
-          </a>
+          <Home size={32} color="black" />
+          <span className="visually-hidden">home</span>
         </Link>
         {links.map(({ link, icon }) => (
           <a href={link} key={link}>
@@ -65,8 +63,8 @@ const Footer: React.FC<Props> = ({ overlay }) => {
             <span className="visually-hidden">{link}</span>
           </a>
         ))}
-        <Link href="https://mightypenguin.dev/cv">
-          <a style={{ color: 'black' }}>CV</a>
+        <Link href="https://mightypenguin.dev/cv" style={{ color: 'black' }}>
+          CV
         </Link>
       </Inline>
     </div>

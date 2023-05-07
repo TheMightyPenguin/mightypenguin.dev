@@ -58,14 +58,14 @@ const Igloo: React.FC<Props> = ({ links }) => {
         }}
       >
         {links.map(({ href }, index) => (
-          <Link key={href} href={`/igloo/${href}`}>
-            <a
-              style={{
-                marginLeft: index > 0 ? 16 : 0,
-              }}
-            >
-              {href}
-            </a>
+          <Link
+            key={href}
+            href={`/igloo/${href}`}
+            style={{
+              marginLeft: index > 0 ? 16 : 0,
+            }}
+          >
+            {href}
           </Link>
         ))}
       </div>

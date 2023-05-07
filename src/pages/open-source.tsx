@@ -35,9 +35,7 @@ const OpenSource = () => {
       </Head>
       <Stack space="6x">
         <Link href="/">
-          <a>
-            <Text>&larr; Back to home</Text>
-          </a>
+          <Text>&larr; Back to home</Text>
         </Link>
         <Text style={{ fontSize: 18, maxWidth: 400 }}>
           Most recently I released{' '}

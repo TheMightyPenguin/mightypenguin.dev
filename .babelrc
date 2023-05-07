@@ -1,9 +1,0 @@
-{
-  "presets": [
-    "next/babel"
-  ],
-  "plugins": [
-    "import-glob-array",
-    "@vanilla-extract/babel-plugin"
-  ]
-}
