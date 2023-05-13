@@ -1,0 +1,219 @@
+---
+title: 'Building node particles experiment'
+date: '2021-02-05'
+summary: 'A summary of I build the node particles experiment'
+state: 'draft'
+---
+
+import PostLayout from '../../layouts/PostLayout';
+import CanvasEmbed from '../../components/CanvasEmbed';
+import NodeParticles from '../../components/canvas/NodeParticles/NodeParticles';
+import { getInitialState } from '../../canvas/nodeParticles';
+import { getRandomPoint, getRandomPositionFromPoint } from '../../utils/math';
+
+# Building Node Particles
+
+To build this experiment, I first made these sketches of roughly what I wanted:
+
+I wanted particles moving slowly trough the space, and to be connected to the nearest 5 particles. I also wanted these particles to be invisible, and the user cursor (mouse or touch position) to act like a torch, and them only show the nearest particle to it, and only draw the connections, to give this idea of a web of connected nodes you discover as you explore the space.
+
+To build this experiment, I first started by making the particle spawn at a random location on the screen, at first I just used random numbers to generate the X and Y of each node, something like this:
+
+```
+const getRandomInRange = (min: number, max: number) => {
+  return Math.random() * (max - min) + min;
+};
+
+Array.from({length: 100}).map(() => ({
+  x: getRandomInRange(0, window.innerWidth),
+  y: getRandomInRange(0, window.innerWidth)
+}))
+```
+
+and with this code, the particles looked something like this:
+
+<CanvasEmbed height={300}>
+  <NodeParticles
+    width="full"
+    height={300}
+    getInitialPositions={(quantity) => {
+      return Array.from({ length: 100 }).map(() =>
+        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
+      );
+    }}
+    stopParticles
+    hideLines
+  />
+</CanvasEmbed>
+
+I wasn't too happy with the particles position (some where too close), but I wanted to keep moving until I finished the vision I had in mind and come back to this later.
+
+At this point we have each particle position and we're painting it to the screen, next problem I wanted to tackle was to connect each particle to the 5 nearest particles. I thought about a few ways to do this:
+
+- Comparing each node with all other particles to get the 5 closest
+- Comparing each node, sort the whole list based on which nodes are closest, and then take the 5 first elements of this array
+
+Out of these 2, I liked the 2nd one as it sounder a bit simpler to implement using built it functions:
+
+```js
+const getClosestNodes = (node, allNodes, closest = 5) => {
+  return (
+    allNodes
+      // make sure we don't compare with same node as distance would be 0
+      .filter((otherNode) => otherNode !== node)
+      .sort((a, b) => {
+        const aToNode = getDistance(a.currentPosition, node.currentPosition);
+        const bToNode = getDistance(b.currentPosition, node.currentPosition);
+        return aToNode - bToNode;
+      })
+      // get 5 closest nodes
+      .slice(0, closest)
+  );
+};
+```
+
+With this, now we have each node position and also each node has a `connected` property which is an array of the 5 closest nodes, in code this looks a bit like:
+
+```js
+const node1 = { id: '1', x: 2, y: 2 };
+const node2 = { id: '2', x: 0, y: 5 };
+const node3 = { id: '3', x: 8, y: 4 };
+
+node1.connected = [node2, node3];
+node2.connected = [node1, node3];
+node3.connected = [node2, node3];
+
+const nodes = [node1, node2, node3];
+```
+
+In the app we have 100's of nodes (300 for desktop and 150 for mobile).
+
+And to be honest, in thist part performance wasn't so important, as I just wanted to connect particles once when the data gets populated, when painting this into the screen this algoritm is not going to run again, so I mostly wanted something simple to implement.
+
+(PS: If you're not familiar with Big-O notation, my good friend @charliesbot has a great post about that, check it out!)
+
+After having the nodes with connections painted on the screen, next I wanted to only paint the node that is closer to the mouse, and then paint its 5 closest nodes.
+
+As we have the connected nodes, this will be straightforward to implement:
+
+```
+const nodeClosestToMouse = getNodeClosestToMouse();
+
+for (let node of nodes) {
+  const isClosestToMouse = node.id === nodeClosestToMouse;
+
+  if (!isClosestToMouse) {
+    continue;
+  }
+
+  for (let otherNode of node.connected) {
+    drawLine(node, otherNode);
+  }
+}
+```
+
+First we verify if the node is the one closest to mouse, if it is not, then we don't do anything, but if it's, we paint it's closest 5 lines. At this point we have something like this:
+
+FOr the next step, I imagine the cursor to be something like a flashlight or a torch, and then once you point it to a node, the light level is very strong, and this propagates to the other nodes until the light dissapears. Say you have a few connected nodes, it would look something like this:
+
+```
+Drawing of luminance example
+```
+
+To implement this, we need to iterate every other node connected nodes as well, and for each of these also draw lines but with less luminance, we can use the Alpha layer of a color to accomplish this.
+
+```
+const nodeClosestToMouse = getNodeClosestToMouse();
+
+for (let node of nodes) {
+  const isClosestToMouse = node.id === nodeClosestToMouse;
+
+  if (!isClosestToMouse) {
+    continue;
+  }
+
+  function drawConnectedLines(node, alpha) {
+    if (alpha < 0.1) {
+      return;
+    }
+    for (let otherNode of node.connected) {
+      // first we draw a line from the node to the connected node
+      drawLine(node, otherNode, alpha);
+      // and then we draw the connected lines of otherNode
+      drawConnectedLines(otherNode, alpha / 3);
+    }
+  }
+
+  drawConnectedLines(node, 1);
+}
+```
+
+So in the algorithm we start with an alpha value of 1, and we recursively call this function for every connected node, and also on those other nodes connected nodes, until the alpha value is below a tthreshold (0.1 in this case). We need to have this condition, the base case, because otherwise recursion will be infinite and our program will be stuck in an infinite loop until we get a Stack Overflow error!
+
+Ok, so now we have this, play around and move your mouse a bit:
+
+```
+Example with connected lines
+```
+
+Now what's missing is the node movement! We want nodes to move slowly to a random position around them (within a radius), and once they reach their target, move to another random position. For this we have to change our node data structure a little bit. At the moment we only store the current positio, and we need something like this:
+
+```
+const node = {
+  originPosition: { x: 3, 4 },
+  currentPosition: { x: 0, y: 2 },
+  targetPosition: { x: 5, y: 5 },
+  movementRadius: 20,
+  velocity: 0.5,
+}
+```
+
+The `originPosition` and `movementRadius` indicate the area of movement of the particle, it's like saying "Hey little node, you're only allowed to move 20 pixels from the origin position". We'll use these fields to calculate the `targetPosition`, and slowly move the node each frame adding velocity to it's `currentPosition`, and after we reach this position, we'll calculate a new `targetPosition` using the area of movement, move to that one and repeat.
+
+The implementation I did looks a bit like this:
+
+After we add movement, this is what it looks like:
+
+<CanvasEmbed height={300}>
+  <NodeParticles
+    width="full"
+    height={300}
+    getInitialPositions={(quantity) => {
+      return Array.from({ length: 100 }).map(() =>
+        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
+      );
+    }}
+  />
+</CanvasEmbed>
+
+Not bad, but the particle position still bugs me a little bit, lets fix that.
+
+At the moment we're calculating the initial x, y values for each node randomly, and this means the nodes won't be evenly distributed across the screen. The important word here is distribution, we want to evenly distribute words trough the screen while maintaining some sort of randomness (we don't manually want to position all of these particles on the screen).
+
+After some research, I found out about the Poisson Distribution, I found out that implementing is quite hard, but that we could use Michael best-candidate algorithm, which allow us to estimate a poisson distribution in a non so expensive way.
+
+Mike Bostock (d3 and observablehq creator) did a really good job on explaining this algorithm on his [blog](https://observablehq.com/@mbostock/best-candidate-circles#:~:text=Mitchell's%20best%2Dcandidate%20algorithm%20generates,resulting%20in%20a%20pleasing%20jumble.)
+
+So after we apply this, we get these initial nodes:
+
+<CanvasEmbed height={300}>
+  <NodeParticles width="full" height={300} hideLines stopParticles />
+</CanvasEmbed>
+
+Compared with the full random approach:
+
+<CanvasEmbed height={300}>
+  <NodeParticles
+    width="full"
+    height={300}
+    getInitialPositions={(quantity) => {
+      return Array.from({ length: 100 }).map(() =>
+        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
+      );
+    }}
+    hideLines
+    stopParticles
+  />
+</CanvasEmbed>
+
+As you can see, particles are filling the space in a more even way, as there are less gaps, and at the same time particles are not that close to each other, but still keeps some of the randomess.

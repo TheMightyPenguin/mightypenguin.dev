@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-var-requires */
-import addMdx from '@next/mdx';
+// import addMdx from '@next/mdx';
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
-import withPlugins from 'next-compose-plugins';
-import emoji from 'remark-emoji';
-import images from 'remark-images';
+import { withContentlayer } from 'next-contentlayer';
+// import emoji from 'remark-emoji';
+// import images from 'remark-images';
 
 const withVanillaExtract = createVanillaExtractPlugin();
 
@@ -14,10 +11,11 @@ const withVanillaExtract = createVanillaExtractPlugin();
  */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   transpilePackages: ['@dessert-box/react'],
   experimental: {
-    mdxRs: true,
+    appDir: true,
   },
   async rewrites() {
     return [
@@ -29,13 +27,13 @@ const nextConfig = {
   },
 };
 
-addMdx(nextConfig, {
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [images, emoji],
-    rehypePlugins: [],
-    providerImportSource: '@mdx-js/react',
-  },
-});
+// addMdx(nextConfig, {
+//   extension: /\.mdx?$/,
+//   options: {
+//     remarkPlugins: [images, emoji],
+//     rehypePlugins: [],
+//     providerImportSource: '@mdx-js/react',
+//   },
+// });
 
-export default withPlugins([withVanillaExtract], nextConfig);
+export default withVanillaExtract(nextConfig);

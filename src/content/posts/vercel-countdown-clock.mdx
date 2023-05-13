@@ -1,0 +1,19 @@
+---
+title: 'Vercel Countdown Clock'
+date: '2023-01-01'
+summary: 'A summary of I build the node particles experiment'
+state: 'draft'
+---
+
+import PostLayout from '../../layouts/PostLayout';
+import { CountdownClock } from '@/components/CountdownClock/CountdownClock';
+
+# Vercel Countdown Clock
+
+My first approach was using AnimatePresence, then a collection of `motion.span`'s inside, one per digit.
+
+After some time with this approach, I quickly realized that for this approach to work, we need to know the number of digits we want to display beforehand.
+
+So After inspecting Vercel implementation, I realized they were always rendering 2 divs. I wondered why, and after some tinkering I realized that if the component is rendering 2 divs, then it can be flexible and we don't need to know the number of digits we want to render beforehand.
+
+<CountdownClock />
