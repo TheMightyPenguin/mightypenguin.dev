@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { MathJsStatic } from 'mathjs';
 import React, { ComponentProps, useEffect, useReducer, useState } from 'react';
 

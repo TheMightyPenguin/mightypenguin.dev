@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { Box } from '@/components/Box/Box';
 import { Stack } from '@/components/Stack/Stack';
@@ -11,7 +11,10 @@ function fetchSteamCurrentlyPlaying() {
 }
 
 function useSteamCurrentlyPlaying() {
-  return useQuery('steamCurrenlyPlaying', fetchSteamCurrentlyPlaying);
+  return useQuery({
+    queryKey: ['steamCurrenlyPlaying'],
+    queryFn: fetchSteamCurrentlyPlaying,
+  });
 }
 
 function getGameImageUrl(game: { appid: string; img_icon_url: string }) {

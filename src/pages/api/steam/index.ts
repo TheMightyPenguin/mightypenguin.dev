@@ -30,7 +30,6 @@ export default async function steamPlayingData(
   try {
     if (profileData?.gameid) {
       const gameInfo = recentlyPlayedGames?.response?.games?.find(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (game: any) => {
           return game.appid.toString() === profileData?.gameid.toString();
         },

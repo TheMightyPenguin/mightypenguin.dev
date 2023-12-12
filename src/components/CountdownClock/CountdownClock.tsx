@@ -51,7 +51,7 @@ const cellStyle: CSSProperties = {
 };
 
 const FlexibleApproach = {
-  SegmentGroup: ({ value }: { value: number }) => {
+  SegmentGroup: function SegmentGroup({ value }: { value: number }) {
     const sectionedCount = value
       .toString()
       .padStart(2, '0')
@@ -93,7 +93,7 @@ const FlexibleApproach = {
     );
   },
 
-  Segment: ({ digit }: { digit: number }) => {
+  Segment: function Segment({ digit }: { digit: number }) {
     const prevDigit = Math.max(digit - 1, 0);
     return (
       <>
@@ -126,7 +126,7 @@ const FlexibleApproach = {
   },
 };
 
-const Segment = ({ value }: { value: number }) => {
+function Segment({ value }: { value: number }) {
   return (
     <AnimatePresence>
       <motion.span
@@ -153,6 +153,6 @@ const Segment = ({ value }: { value: number }) => {
       </motion.span>
     </AnimatePresence>
   );
-};
+}
 
 const SegmentGroup = () => {};

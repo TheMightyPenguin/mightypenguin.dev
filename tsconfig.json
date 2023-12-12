@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,27 +15,13 @@
     "jsx": "preserve",
     "baseUrl": "src/",
     "paths": {
-      "contentlayer/generated": [
-        "./.contentlayer/generated"
-      ],
-      "@/components/*": [
-        "components/*"
-      ],
-      "@/theme/*": [
-        "theme/*"
-      ],
-      "@/utils/*": [
-        "utils/*"
-      ],
-      "@/hooks/*": [
-        "hooks/*"
-      ],
-      "@/canvas/*": [
-        "canvas/*"
-      ],
-      "@/types/*": [
-        "@types/*"
-      ]
+      "contentlayer/generated": ["./.contentlayer/generated"],
+      "@/components/*": ["components/*"],
+      "@/theme/*": ["theme/*"],
+      "@/utils/*": ["utils/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/canvas/*": ["canvas/*"],
+      "@/types/*": ["@types/*"]
     },
     "incremental": true,
     "plugins": [
@@ -52,9 +34,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".contentlayer/generated"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -8,7 +8,7 @@ export const Post = defineDocumentType(() => ({
     title: { type: 'string', required: true },
     summary: { type: 'string', required: true },
     state: { type: 'string', required: true },
-    date: { type: 'date', required: true },
+    publishedAt: { type: 'date', required: true },
   },
   computedFields: {
     url: {
@@ -18,7 +18,25 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
+export const Learning = defineDocumentType(() => ({
+  name: 'Learning',
+  filePathPattern: `til/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    title: { type: 'string', required: true },
+    summary: { type: 'string', required: true },
+    state: { type: 'string', required: true },
+    publishedAt: { type: 'date', required: true },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: (post) => `/til/${post._raw.flattenedPath}`,
+    },
+  },
+}));
+
 export default makeSource({
   contentDirPath: 'src/content/',
-  documentTypes: [Post],
+  documentTypes: [Post, Learning],
 });

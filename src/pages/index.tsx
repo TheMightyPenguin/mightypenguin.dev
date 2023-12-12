@@ -4,6 +4,7 @@ import React from 'react';
 
 import Footer from '@/components/Footer/Footer';
 import Stack from '@/components/Stack/Stack';
+import Box from '@/components/Box/Box';
 import { SteamCurrentlyPlaying } from '@/components/SteamCurrentlyPlaying/SteamCurrentlyPlaying';
 import Text from '@/components/Text/Text';
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MDXProvider } from '@mdx-js/react';
 import { MDXComponents } from 'mdx/types';
 import { PropsWithChildren } from 'react';
@@ -8,16 +7,20 @@ import Stack from '@/components/Stack/Stack';
 
 const mdxComponents: MDXComponents = {
   // eslint-disable-next-line jsx-a11y/heading-has-content
-  h1: (props: any) => <h1 {...props} style={{ color: 'red' }} />,
-  p: (props: any) => (
-    <FluidText
-      minSize="medium"
-      maxSize="xlarge"
-      targetPercentage={0.02}
-      lineGap={18}
-      {...props}
-    />
-  ),
+  h1: function H1(props: any) {
+    return <h1 {...props} style={{ color: 'red' }} />;
+  },
+  p: function Paragraph(props: any) {
+    return (
+      <FluidText
+        minSize="medium"
+        maxSize="xlarge"
+        targetPercentage={0.02}
+        lineGap={18}
+        {...props}
+      />
+    );
+  },
 };
 
 // this might be failing due to the mdx package, replace it with another one
