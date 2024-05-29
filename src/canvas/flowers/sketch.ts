@@ -1,6 +1,7 @@
 import p5 from 'p5';
 import { v4 as uuidv4 } from 'uuid';
 import colorPalettes from 'nice-color-palettes';
+import { BaseSketchOptions } from '../BaseSketchOptions';
 
 export type Point = {
   x: number;
@@ -66,12 +67,10 @@ type SketchDeviceConfiguration = {
   particleCount: number;
 };
 
-export type SketchOptions = {
+export type SketchOptions = BaseSketchOptions & {
   getInitialPositions?: any;
   hideLines?: boolean;
   stopParticles?: boolean;
-  width: 'full' | number;
-  height: 'full' | number;
   colors: {
     background: string;
     others: string[];
@@ -183,6 +182,13 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   };
 
   p.draw = () => {};
+};
+
+export const renderSketch = (
+  container: HTMLDivElement,
+  options: SketchOptions,
+) => {
+  return new p5(sketch(options), container);
 };
 
 const getRandomInRange = (min: number, max: number) => {

@@ -178,6 +178,13 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   };
 };
 
+export const renderSketch = (
+  container: HTMLDivElement,
+  options: SketchOptions,
+) => {
+  return new p5(sketch(options), container);
+};
+
 const getClosestNodes = (
   node: Omit<Node, 'connected'>,
   allNodes: Omit<Node, 'connected'>[],

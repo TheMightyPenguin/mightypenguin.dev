@@ -1,12 +1,14 @@
+'use client';
+
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import colorPalettes from 'nice-color-palettes';
 import React, { useMemo, useReducer } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import Flowers from '@/components/canvas/Flowers/Flowers';
+import PackedDots from '@/canvas/packetDots/Component';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
-const FlowersPage = () => {
+const PackedDotsPage = () => {
   useIgnoreScroll();
   const [count, increment] = useReducer((c) => c + 1, 0);
 
@@ -28,11 +30,11 @@ const FlowersPage = () => {
         aria-label="regenerate"
         tabIndex={0}
       >
-        <Flowers key={count} colors={colors} width="full" height="full" />
+        <PackedDots key={count} colors={colors} width="full" height="full" />
       </div>
       <BackToLink href="/igloo">Back to Igloo</BackToLink>
     </React.Fragment>
   );
 };
 
-export default FlowersPage;
+export default PackedDotsPage;

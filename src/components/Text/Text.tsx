@@ -1,8 +1,10 @@
-import React, { createContext, useContext } from 'react';
+'use client';
+import React, { useContext } from 'react';
 
 import { Box, Props as BoxProps } from '@/components/Box/Box';
 
 import * as styles from './Text.css';
+import { TextContextProvider, TextContext } from './TextContextProvider';
 
 type Props = {
   size?: keyof typeof styles.variants;
@@ -10,8 +12,6 @@ type Props = {
   fontFamily?: BoxProps['fontFamily'];
   letterSpacing?: BoxProps['letterSpacing'];
 } & React.ComponentPropsWithRef<'p'>;
-
-const InTextContext = createContext<boolean>(false);
 
 export const Text: React.FC<Props> = (props) => {
   const {
@@ -22,10 +22,10 @@ export const Text: React.FC<Props> = (props) => {
     letterSpacing = 'normal',
     ...otherProps
   } = props;
-  const isNestedText = useContext(InTextContext);
+  const isNestedText = useContext(TextContext);
 
   return (
-    <InTextContext.Provider value={true}>
+    <TextContextProvider>
       <Box
         // @ts-ignore
         as={isNestedText ? 'span' : 'p'}
@@ -42,7 +42,7 @@ export const Text: React.FC<Props> = (props) => {
       >
         {children}
       </Box>
-    </InTextContext.Provider>
+    </TextContextProvider>
   );
 };
 

@@ -1,27 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 
-import { sketch, SketchOptions } from '@/canvas/packedDots';
+import { sketch, SketchOptions } from '@/canvas/rainbowPath/sketch';
 
 const renderAnimation = async (
   container: HTMLDivElement,
-  // @ts-ignore
-  sketchOptions: SketchOptions = {
-    width: 'full',
-    height: 'full',
-  },
+  sketchOptions: SketchOptions,
 ) => {
   const p5 = (await import('p5')).default;
   return new p5(sketch(sketchOptions), container);
 };
 
-type Props = SketchOptions & {
-  disableScroll?: boolean;
-};
+type Props = SketchOptions;
 
-const PackedDots: React.FC<Props> = ({
-  disableScroll = true,
-  ...sketchOptions
-}) => {
+const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,15 +27,15 @@ const PackedDots: React.FC<Props> = ({
         p5Instance.remove();
       });
     };
-  }, [containerRef]);
+  }, [containerRef, sketchOptions.mode, sketchOptions.getCursorFn]);
 
   const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
-    touchAction: disableScroll ? 'none' : undefined,
+    touchAction: 'none',
   };
 
   return <div style={style} ref={containerRef} />;
 };
 
-export default PackedDots;
+export default RainbowPath;

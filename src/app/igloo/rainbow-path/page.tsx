@@ -1,8 +1,10 @@
+'use client';
+
 import type { MathJsStatic } from 'mathjs';
 import React, { ComponentProps, useEffect, useReducer, useState } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import RainbowPath from '@/components/canvas/RainbowPath/RainbowPath';
+import RainbowPath from '@/canvas/rainbowPath/Component';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 
 type Mode = ComponentProps<typeof RainbowPath>['mode'];

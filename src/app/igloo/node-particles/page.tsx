@@ -1,8 +1,13 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 
-import NodeParticles from '@/components/canvas/NodeParticles/NodeParticles';
 import Footer from '@/components/Footer/Footer';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
+import { createSketchRenderer } from '@/components/SketchRenderer/SketchRenderer';
+
+import { renderSketch } from '@/canvas/nodeParticles/sketch';
+
+const NodeParticles = createSketchRenderer(renderSketch);
 
 const useRemoveOnInteraction = () => {
   useIgnoreScroll();

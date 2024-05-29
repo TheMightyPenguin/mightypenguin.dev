@@ -1,18 +1,27 @@
 import React, { useEffect, useRef } from 'react';
 
-import { sketch, SketchOptions } from '@/canvas/rainbowPath';
+import { sketch, SketchOptions } from '@/canvas/flowers/sketch';
 
 const renderAnimation = async (
   container: HTMLDivElement,
-  sketchOptions: SketchOptions,
+  // @ts-ignore
+  sketchOptions: SketchOptions = {
+    width: 'full',
+    height: 'full',
+  },
 ) => {
   const p5 = (await import('p5')).default;
   return new p5(sketch(sketchOptions), container);
 };
 
-type Props = SketchOptions;
+type Props = SketchOptions & {
+  disableScroll?: boolean;
+};
 
-const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
+const Flowers: React.FC<Props> = ({
+  disableScroll = true,
+  ...sketchOptions
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,15 +36,15 @@ const RainbowPath: React.FC<Props> = ({ ...sketchOptions }) => {
         p5Instance.remove();
       });
     };
-  }, [containerRef, sketchOptions.mode, sketchOptions.getCursorFn]);
+  }, [containerRef]);
 
   const style: React.CSSProperties = {
     width: sketchOptions.width === 'full' ? '100vw' : sketchOptions.width,
     height: sketchOptions.height === 'full' ? '100vh' : sketchOptions.height,
-    touchAction: 'none',
+    touchAction: disableScroll ? 'none' : undefined,
   };
 
   return <div style={style} ref={containerRef} />;
 };
 
-export default RainbowPath;
+export default Flowers;

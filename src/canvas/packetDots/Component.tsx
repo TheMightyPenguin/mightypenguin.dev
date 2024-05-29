@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-import { sketch, SketchOptions } from '@/canvas/nodeParticles';
+import { sketch, SketchOptions } from '@/canvas/packetDots/sketch';
 
 const renderAnimation = async (
   container: HTMLDivElement,
+  // @ts-ignore
   sketchOptions: SketchOptions = {
     width: 'full',
     height: 'full',
@@ -17,7 +18,7 @@ type Props = SketchOptions & {
   disableScroll?: boolean;
 };
 
-const NodeParticles: React.FC<Props> = ({
+const PackedDots: React.FC<Props> = ({
   disableScroll = true,
   ...sketchOptions
 }) => {
@@ -46,4 +47,4 @@ const NodeParticles: React.FC<Props> = ({
   return <div style={style} ref={containerRef} />;
 };
 
-export default NodeParticles;
+export default PackedDots;

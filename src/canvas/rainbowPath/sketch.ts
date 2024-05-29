@@ -1,13 +1,9 @@
 import p5 from 'p5';
 import { getStroke } from 'perfect-freehand';
+import { BaseSketchOptions } from '../BaseSketchOptions';
 
 const BACKGROUND_COLOR = '#FFFFFF';
 const LINE_SIZE = 10;
-
-export type BaseSketchOptions = {
-  width: 'full' | number;
-  height: 'full' | number;
-};
 
 export type SketchOptions = BaseSketchOptions & {
   mode: 'draw' | 'formula';

@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
@@ -12,11 +11,18 @@ import Text from '@/components/Text/Text';
 const generateEmojiFavicon = (emoji: string) =>
   `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
 
-type Props = {
-  links: { href: string }[];
-};
+export default async function Igloo() {
+  const filesDirectory = path.join(process.cwd(), 'src/app/igloo');
+  const filenames = fs
+    .readdirSync(filesDirectory)
+    .filter((filename) => !filename.endsWith('.tsx'));
 
-const Igloo: React.FC<Props> = ({ links }) => {
+  const links = filenames.map((filename) => {
+    return {
+      href: filename.replace(/\.tsx/, ''),
+    };
+  });
+
   return (
     <div
       style={{
@@ -72,25 +78,4 @@ const Igloo: React.FC<Props> = ({ links }) => {
       <Footer />
     </div>
   );
-};
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const filesDirectory = path.join(process.cwd(), 'src/pages/igloo');
-  const filenames = fs
-    .readdirSync(filesDirectory)
-    .filter((filename) => filename !== 'index.tsx');
-
-  const links = filenames.map((filename) => {
-    return {
-      href: filename.replace(/\.tsx/, ''),
-    };
-  });
-
-  return {
-    props: {
-      links,
-    },
-  };
-};
-
-export default Igloo;
+}

@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
-import { sketch, SketchOptions } from '@/canvas/flowers';
+import { sketch, SketchOptions } from '@/canvas/nodeParticles/sketch';
 
 const renderAnimation = async (
   container: HTMLDivElement,
-  // @ts-ignore
   sketchOptions: SketchOptions = {
     width: 'full',
     height: 'full',
@@ -18,7 +17,7 @@ type Props = SketchOptions & {
   disableScroll?: boolean;
 };
 
-const Flowers: React.FC<Props> = ({
+const NodeParticles: React.FC<Props> = ({
   disableScroll = true,
   ...sketchOptions
 }) => {
@@ -47,4 +46,4 @@ const Flowers: React.FC<Props> = ({
   return <div style={style} ref={containerRef} />;
 };
 
-export default Flowers;
+export default NodeParticles;

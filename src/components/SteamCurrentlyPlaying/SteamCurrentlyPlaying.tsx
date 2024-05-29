@@ -1,9 +1,8 @@
+'use client';
 import { useQuery } from '@tanstack/react-query';
-
 import { Box } from '@/components/Box/Box';
 import { Stack } from '@/components/Stack/Stack';
 import { Text } from '@/components/Text/Text';
-
 import * as styles from './SteamCurrentlyPlaying.css';
 
 function fetchSteamCurrentlyPlaying() {
