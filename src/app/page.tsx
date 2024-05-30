@@ -78,8 +78,7 @@ export default function Home() {
                 dessert-box
               </a>
               , a library to create a Zero-CSS runtime <code>Box</code>{' '}
-              component with Vanilla Extract. Psst, curious about the
-              background?{' '}
+              component with Vanilla Extract. Curious about the background art?{' '}
               <Link href="/igloo/color-parallels">Check this out</Link>.
             </Text>
           </div>

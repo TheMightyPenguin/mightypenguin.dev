@@ -75,7 +75,6 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
       let hue = !p.mouseIsPressed
         ? p.map(distanceToMouse, 0, state.colorDistance, 0, 360)
         : p.map(distanceToMouse, 0, state.colorDistance, 360, 0);
-      // return p.color('blue');
       return p.color(hue, 80, 80);
     }
 
