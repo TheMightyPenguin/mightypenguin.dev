@@ -11,6 +11,12 @@ export const getRandomPoint = (
   y: getRandomInRange(min.y, max.y),
 });
 
+export const randomDistribution = (quantity: number) => {
+  return Array.from({ length: quantity }).map(() =>
+    getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
+  );
+};
+
 export const getRandomInRange = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };

@@ -1,3 +1,4 @@
+'use client';
 import { Reducer, useReducer } from 'react';
 
 const reducer: Reducer<boolean, boolean | undefined> = (

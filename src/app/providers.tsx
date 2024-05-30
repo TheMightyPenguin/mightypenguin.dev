@@ -1,8 +1,6 @@
 'use client';
-import '../styles/globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ThemeProvider from '../theme/ThemeProvider';
-import { Metadata } from 'next';
 
 function makeQueryClient() {
   return new QueryClient({

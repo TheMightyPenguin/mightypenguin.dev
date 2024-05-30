@@ -1,3 +1,4 @@
+'use client';
 import React, { PropsWithChildren } from 'react';
 
 import { useWindowSize } from '@/hooks/useWindowSize';

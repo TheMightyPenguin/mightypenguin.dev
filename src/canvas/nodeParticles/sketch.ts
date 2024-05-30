@@ -1,5 +1,6 @@
 import p5 from 'p5';
 import { v4 as uuidv4 } from 'uuid';
+import { getRandomPoint, randomDistribution } from '@/utils/math';
 
 export type Point = {
   x: number;
@@ -54,7 +55,7 @@ type SketchDeviceConfiguration = {
 };
 
 export type SketchOptions = {
-  getInitialPositions?: (quantity: number) => Point[];
+  initialDistribution?: 'poisson' | 'random';
   hideLines?: boolean;
   stopParticles?: boolean;
   width: 'full' | number;
@@ -238,11 +239,6 @@ const getTargetPosition = (origin: Point, movementRadius: number) => {
   };
 };
 
-const getRandomPoint = (): Point => ({
-  x: getRandomInRange(SCREEN_BOUNDS, window.innerWidth - SCREEN_BOUNDS),
-  y: getRandomInRange(SCREEN_BOUNDS, window.innerHeight - SCREEN_BOUNDS),
-});
-
 /**
  * Based on Mitchell’s best-candidate algorithm
  * the idea is to approximate a Poisson-disc distribution
@@ -304,8 +300,12 @@ const getNodes = (points: Point[]) => {
 
 export const getInitialState = ({
   particleCount = 150,
-  getInitialPositions = poissonDistribution,
+  initialDistribution = 'poisson',
 }: Partial<SketchDeviceConfiguration & SketchOptions> = {}): State => {
+  const getInitialPositions =
+    initialDistribution === 'poisson'
+      ? poissonDistribution
+      : randomDistribution;
   const nodes = getNodes(getInitialPositions(particleCount)).map(
     (node, _index, collection) => {
       // @ts-ignore

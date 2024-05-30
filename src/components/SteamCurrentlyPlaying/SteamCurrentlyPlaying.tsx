@@ -1,30 +1,17 @@
-'use client';
-import { useQuery } from '@tanstack/react-query';
+'use server';
+
 import { Box } from '@/components/Box/Box';
 import { Stack } from '@/components/Stack/Stack';
 import { Text } from '@/components/Text/Text';
 import * as styles from './SteamCurrentlyPlaying.css';
-
-function fetchSteamCurrentlyPlaying() {
-  return fetch('/api/steam').then((response) => response.json());
-}
-
-function useSteamCurrentlyPlaying() {
-  return useQuery({
-    queryKey: ['steamCurrenlyPlaying'],
-    queryFn: fetchSteamCurrentlyPlaying,
-  });
-}
+import { getSteamPlayingData } from './steam';
 
 function getGameImageUrl(game: { appid: string; img_icon_url: string }) {
   return `http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`;
 }
 
-export function SteamCurrentlyPlaying() {
-  const { data, isLoading } = useSteamCurrentlyPlaying();
-
-  if (isLoading) return null;
-
+export async function SteamCurrentlyPlaying() {
+  const data = await getSteamPlayingData();
   return (
     <Box
       className={styles.container}

@@ -5,11 +5,8 @@ summary: A summary of I build the node particles experiment
 state: draft
 ---
 
-import PostLayout from '../../layouts/PostLayout';
-import CanvasEmbed from '../../components/CanvasEmbed';
-import NodeParticles from '../../components/canvas/NodeParticles/NodeParticles';
-import { getInitialState } from '../../canvas/nodeParticles';
-import { getRandomPoint, getRandomPositionFromPoint } from '../../utils/math';
+import CanvasEmbed from '../../components/CanvasEmbed/CanvasEmbed';
+import NodeParticles from '../../canvas/nodeParticles/Component';
 
 # Building Node Particles
 
@@ -36,11 +33,7 @@ and with this code, the particles looked something like this:
   <NodeParticles
     width="full"
     height={300}
-    getInitialPositions={(quantity) => {
-      return Array.from({ length: 100 }).map(() =>
-        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
-      );
-    }}
+    initialDistribution="random"
     stopParticles
     hideLines
   />
@@ -175,15 +168,7 @@ The implementation I did looks a bit like this:
 After we add movement, this is what it looks like:
 
 <CanvasEmbed height={300}>
-  <NodeParticles
-    width="full"
-    height={300}
-    getInitialPositions={(quantity) => {
-      return Array.from({ length: 100 }).map(() =>
-        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
-      );
-    }}
-  />
+  <NodeParticles width="full" height={300} initialDistribution="random" />
 </CanvasEmbed>
 
 Not bad, but the particle position still bugs me a little bit, lets fix that.
@@ -206,11 +191,7 @@ Compared with the full random approach:
   <NodeParticles
     width="full"
     height={300}
-    getInitialPositions={(quantity) => {
-      return Array.from({ length: 100 }).map(() =>
-        getRandomPoint(undefined, { x: window.innerWidth, y: 300 }),
-      );
-    }}
+    initialDistribution="random"
     hideLines
     stopParticles
   />

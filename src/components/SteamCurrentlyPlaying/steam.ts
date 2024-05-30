@@ -1,28 +1,30 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-
 const STEAM_API_KEY = process.env.STEAM_API_KEY;
 const STEAM_API = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${STEAM_API_KEY}&steamids=76561198058699106&format=json`;
 const STEAM_RECENTLY_PLAYED_GAMES = `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${STEAM_API_KEY}&steamid=76561198058699106&format=json`;
 
 async function getRecentlyPlayedGames() {
-  const response = await fetch(STEAM_RECENTLY_PLAYED_GAMES);
+  const response = await fetch(STEAM_RECENTLY_PLAYED_GAMES, {
+    next: {
+      revalidate: 3600 / 4,
+    },
+  });
   const data = await response.json();
   return data;
 }
 
-export default async function steamPlayingData(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const steamResponse = await fetch(STEAM_API);
+export async function getSteamPlayingData() {
+  const steamResponse = await fetch(STEAM_API, {
+    next: {
+      revalidate: 3600 / 4,
+    },
+  });
   const steamData = await steamResponse.json();
   const recentlyPlayedGames = await getRecentlyPlayedGames();
 
   const [profileData] = steamData?.response?.players ?? [];
 
   if (!profileData) {
-    res.status(404).json({ message: 'not found' });
-    return;
+    throw new Error('Not found');
   }
 
   let lastPlayedGame;
@@ -39,8 +41,8 @@ export default async function steamPlayingData(
     } else {
       lastPlayedGame = recentlyPlayedGames?.response?.games?.[0];
     }
-    res.status(200).json(lastPlayedGame);
+    return lastPlayedGame;
   } catch (e) {
-    res.status(500).json({ message: 'Error getting game' });
+    throw new Error('Error getting game');
   }
 }

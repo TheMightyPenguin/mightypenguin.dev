@@ -68,7 +68,6 @@ type SketchDeviceConfiguration = {
 };
 
 export type SketchOptions = BaseSketchOptions & {
-  getInitialPositions?: any;
   hideLines?: boolean;
   stopParticles?: boolean;
   colors: {
@@ -221,52 +220,8 @@ const getClosestCircle = (circle: Circle, allCircles: Array<Circle>) => {
     .slice(0, 1)[0];
 };
 
-/**
- * Based on Mitchell’s best-candidate algorithm
- * the idea is to approximate a Poisson-disc distribution
- * @see https://bost.ocks.org/mike/algorithms/
- */
-const poissonDistribution = (quantity: number, circles: Circle[] = []) => {
-  const candidates = 20;
-
-  let bestCircle = new Circle();
-  bestCircle.currentPosition.x = Infinity;
-  bestCircle.currentPosition.y = Infinity;
-  let bestDistance = -Infinity;
-
-  for (let index = 0; index < quantity; index++) {
-    if (circles.length === 0) {
-      circles.push(new Circle());
-      continue;
-    }
-
-    for (
-      let candidateIndex = 0;
-      candidateIndex < candidates;
-      candidateIndex++
-    ) {
-      const candidate = new Circle();
-      const closestPoint = getClosestCircle(candidate, circles);
-      const distance = getCircleDistance(closestPoint, candidate);
-      if (distance > bestDistance) {
-        bestDistance = distance;
-        bestCircle = candidate;
-      }
-    }
-
-    circles.push(bestCircle);
-    bestCircle = new Circle();
-    bestCircle.currentPosition.x = Infinity;
-    bestCircle.currentPosition.y = Infinity;
-    bestDistance = -Infinity;
-  }
-
-  return circles;
-};
-
 export const getInitialState = ({
   particleCount = 150,
-  getInitialPositions = poissonDistribution,
 }: Partial<SketchDeviceConfiguration & SketchOptions> = {}): State => {
   return {
     // @ts-ignore
