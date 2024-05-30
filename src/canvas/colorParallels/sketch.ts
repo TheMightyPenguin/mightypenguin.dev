@@ -1,14 +1,10 @@
 import p5 from 'p5';
-import { v4 as uuidv4 } from 'uuid';
-import colorPalettes from 'nice-color-palettes';
 import { BaseSketchOptions } from '../BaseSketchOptions';
 
 const LINE_HEIGHT = 30;
 const LINE_WIDTH = 2;
-const STEP = 0.01;
 const LINE_SPACING = 40;
-const BORDER_WIDTH = 10;
-let mobileCursor;
+const BORDER_WIDTH = 0;
 
 export type Point = {
   x: number;
@@ -17,33 +13,18 @@ export type Point = {
 
 export type State = {
   colorDistance: number;
-};
-
-const SCREEN_BOUNDS = 0;
-
-const config = {
-  mobile: {
-    particleCount: 100,
-  },
-  desktop: {
-    particleCount: 100,
-  },
-};
-
-const getConfig = (width: number) => {
-  if (width > 1024) {
-    return config.desktop;
-  }
-  return config.mobile;
+  lines: Array<{
+    draw: () => void;
+    update: () => void;
+  }>;
 };
 
 export type SketchOptions = BaseSketchOptions & {};
 
 export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   let state: State;
-  const padding = 5;
 
-  p.setup = () => {
+  function onResize() {
     const width =
       sketchOptions.width === 'full'
         ? document.body.clientWidth
@@ -53,44 +34,35 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
         ? document.body.clientHeight
         : sketchOptions.height;
 
-    p.createCanvas(width, height);
-    const config = getConfig(p.width);
-    state = getInitialState({ ...config, ...sketchOptions });
+    p.resizeCanvas(width, height);
+    state = getInitialState({ ...sketchOptions });
     state.colorDistance = p.floor(p.max(p.width, p.height) / 2);
-  };
-
-  function getPalette() {
-    const palette = p.random(colorPalettes);
-    return {
-      background: palette[0],
-      others: palette.slice(1),
-    };
+    state.lines = createLines(p);
   }
 
-  p.windowResized = () => {
-    const width =
-      sketchOptions.width === 'full'
-        ? document.body.clientWidth
-        : sketchOptions.width;
-    const height =
-      sketchOptions.height === 'full' ? p.windowHeight : sketchOptions.height;
-
-    p.resizeCanvas(width, height);
-    const config = getConfig(p.width);
-    state = getInitialState({ ...config, ...sketchOptions });
-    state.colorDistance = p.floor(p.max(p.width, p.height) / 2);
-
-    p.background('white');
-    p.setup();
+  p.setup = () => {
+    p.createCanvas(0, 0);
+    p.colorMode(p.HSB, 360, 100, 100);
+    p.angleMode(p.DEGREES);
+    onResize();
   };
 
-  p.draw = () => {};
+  p.windowResized = () => {
+    onResize();
+  };
+
+  p.draw = () => {
+    p.background('white');
+    for (const line of state.lines) {
+      line.draw();
+      line.update();
+    }
+  };
 
   function createLine(originX: number, originY: number) {
     const center = p.createVector(originX, originY - LINE_HEIGHT / 2);
     let angle = p.atan2(p.mouseY - center.y, p.mouseX - center.x);
     let lineColor = getColor();
-    let progress = 0;
     let rectParams = {
       x: -LINE_WIDTH / 2,
       y: -LINE_HEIGHT / 2,
@@ -103,6 +75,7 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
       let hue = !p.mouseIsPressed
         ? p.map(distanceToMouse, 0, state.colorDistance, 0, 360)
         : p.map(distanceToMouse, 0, state.colorDistance, 360, 0);
+      // return p.color('blue');
       return p.color(hue, 80, 80);
     }
 
@@ -186,5 +159,6 @@ export const renderSketch = (
 export const getInitialState = ({}: Partial<SketchOptions> = {}): State => {
   return {
     colorDistance: 0,
+    lines: [],
   };
 };

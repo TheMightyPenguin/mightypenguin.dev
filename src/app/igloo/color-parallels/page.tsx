@@ -6,8 +6,8 @@ import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
 import { createSketchRenderer } from '@/components/SketchRenderer/SketchRenderer';
 import BackToLink from '@/components/BackToLink/BackToLink';
 
-const NodeParticles = createSketchRenderer(() =>
-  import('@/canvas/nodeParticles/sketch').then((m) => m.renderSketch),
+const ColorParallels = createSketchRenderer(() =>
+  import('@/canvas/colorParallels/sketch').then((m) => m.renderSketch),
 );
 
 const useRemoveOnInteraction = () => {
@@ -40,7 +40,7 @@ const Particles = () => {
   const show = useRemoveOnInteraction();
   return (
     <React.Fragment>
-      <NodeParticles width="full" height="full" />
+      <ColorParallels width="full" height="full" />
       <div
         style={{
           position: 'fixed',
@@ -54,7 +54,7 @@ const Particles = () => {
           transition: 'opacity 150ms ease-in-out',
         }}
       >
-        Psst, move your mouse around (or touch around).
+        Psst, move your mouse around, also try clicking!
       </div>
       <Footer overlay />
       <BackToLink href="/igloo">Back to Igloo</BackToLink>

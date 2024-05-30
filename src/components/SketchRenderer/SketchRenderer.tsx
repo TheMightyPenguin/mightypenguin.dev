@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useRef } from 'react';
 import { BaseSketchOptions } from '@/canvas/BaseSketchOptions';
 
@@ -13,7 +14,7 @@ type RenderSketch<T extends BaseSketchOptions> = (
 };
 
 export function createSketchRenderer<T extends BaseSketchOptions>(
-  renderSketch: RenderSketch<T>,
+  getRenderSketch: () => Promise<RenderSketch<T>>,
 ) {
   const SketchRenderer: React.FC<Props & T> = (props) => {
     const { disableScroll = true, ...sketchOptions } = props;
@@ -25,13 +26,12 @@ export function createSketchRenderer<T extends BaseSketchOptions>(
         return;
       }
 
-      const p5Promise = renderSketch(containerRef.current, sketchOptions as T);
+      const p5Promise = getRenderSketch().then((renderSketch) => {
+        return renderSketch(containerRef.current!, sketchOptions as T);
+      });
 
       return () => {
-        p5Promise.remove();
-        // p5Promise.then((p5Instance) => {
-        //   p5Instance.remove();
-        // });
+        p5Promise.then((p) => p.remove());
       };
     }, [containerRef, sketchOptions]);
 
@@ -46,27 +46,3 @@ export function createSketchRenderer<T extends BaseSketchOptions>(
 
   return SketchRenderer;
 }
-
-// export function useLoadSketch(loader: () => Promise<any>) {
-//   const [sketch, setSketch] = React.useState<RenderSketch<any> | undefined>(
-//     undefined,
-//   );
-
-//   useEffect(() => {
-//     import(`@/canvas/${path}/sketch`).then((module) => {
-//       setSketch(module.sketch);
-//     });
-//   }, [path]);
-
-//   return sketch;
-// }
-
-// export function useSketchRenderer<T extends BaseSketchOptions>(path: string) {
-//   const sketch = useLoadSketch(path);
-
-//   if (!sketch) {
-//     return null;
-//   }
-
-//   return createSketchRenderer<T>(sketch);
-// }
