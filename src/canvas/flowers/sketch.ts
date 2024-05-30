@@ -109,7 +109,6 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     for (let i = 0; i < count; i++) {
       const x = Math.round(p.random(100, p.width - 100));
       const y = Math.round(p.random(100, p.height - 100));
-      // console.log({ x, y, w: p.width, h: p.height });
       let palette = getPalette();
       drawFlower(x, y, 5, palette.others, p.random(1, 6));
     }
@@ -141,7 +140,6 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
 
     p.translate(x, y);
 
-    console.log('drawing flower at ', x, y);
     p.strokeWeight(40);
     p.point(0, 0);
 
