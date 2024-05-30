@@ -70,7 +70,7 @@ export type SketchOptions = {
   };
 };
 
-const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
+export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   let state: State;
   const padding = 5;
 
@@ -166,6 +166,13 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   };
 };
 
+export const renderSketch = (
+  container: HTMLDivElement,
+  options: SketchOptions,
+) => {
+  return new p5(sketch(options), container);
+};
+
 const getRandomInRange = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
@@ -250,5 +257,3 @@ export const getInitialState = ({
     circles,
   };
 };
-
-export { sketch };

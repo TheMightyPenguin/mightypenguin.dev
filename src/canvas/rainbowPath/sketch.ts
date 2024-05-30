@@ -14,7 +14,7 @@ type GetPositionFn = (deltaTime: number) => number;
 
 type CursorFn = (deltaTime: number) => [x: number, y: number];
 
-const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
+export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   const mode = sketchOptions.mode;
   const getCursorFn: CursorFn =
     mode === 'draw'
@@ -57,7 +57,12 @@ const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
   };
 };
 
-export { sketch };
+export const renderSketch = (
+  container: HTMLDivElement,
+  options: SketchOptions,
+) => {
+  return new p5(sketch(options), container);
+};
 
 class Brush {
   private prevMousePositions: Array<[x: number, y: number]> = [];

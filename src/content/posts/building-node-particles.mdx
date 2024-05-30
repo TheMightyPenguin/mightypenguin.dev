@@ -6,7 +6,12 @@ state: draft
 ---
 
 import CanvasEmbed from '../../components/CanvasEmbed/CanvasEmbed';
-import NodeParticles from '../../canvas/nodeParticles/Component';
+import dynamic from 'next/dynamic';
+
+export const NodeParticles = dynamic(
+  () => import('../../canvas/nodeParticles/Component'),
+  { ssr: false },
+);
 
 # Building Node Particles
 

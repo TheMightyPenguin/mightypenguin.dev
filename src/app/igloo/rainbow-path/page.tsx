@@ -4,8 +4,12 @@ import type { MathJsStatic } from 'mathjs';
 import React, { ComponentProps, useEffect, useReducer, useState } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import RainbowPath from '@/canvas/rainbowPath/Component';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
+import { createSketchRenderer } from '@/components/SketchRenderer/SketchRenderer';
+
+const RainbowPath = createSketchRenderer(() =>
+  import('@/canvas/rainbowPath/sketch').then((m) => m.renderSketch),
+);
 
 type Mode = ComponentProps<typeof RainbowPath>['mode'];
 type ParsedFormula = ComponentProps<typeof RainbowPath>['getCursorFn'];

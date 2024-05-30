@@ -5,8 +5,12 @@ import colorPalettes from 'nice-color-palettes';
 import React, { useMemo, useReducer } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import Flowers from '@/canvas/flowers/Component';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
+import { createSketchRenderer } from '@/components/SketchRenderer/SketchRenderer';
+
+const Flowers = createSketchRenderer(() =>
+  import('@/canvas/flowers/sketch').then((m) => m.renderSketch),
+);
 
 const FlowersPage = () => {
   useIgnoreScroll();

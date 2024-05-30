@@ -5,8 +5,12 @@ import colorPalettes from 'nice-color-palettes';
 import React, { useMemo, useReducer } from 'react';
 
 import BackToLink from '@/components/BackToLink/BackToLink';
-import PackedDots from '@/canvas/packetDots/Component';
 import { useIgnoreScroll } from '@/hooks/useIgnoreScroll';
+import { createSketchRenderer } from '@/components/SketchRenderer/SketchRenderer';
+
+const PacketDots = createSketchRenderer(() =>
+  import('@/canvas/packetDots/sketch').then((m) => m.renderSketch),
+);
 
 const PackedDotsPage = () => {
   useIgnoreScroll();
@@ -30,7 +34,7 @@ const PackedDotsPage = () => {
         aria-label="regenerate"
         tabIndex={0}
       >
-        <PackedDots key={count} colors={colors} width="full" height="full" />
+        <PacketDots key={count} colors={colors} width="full" height="full" />
       </div>
       <BackToLink href="/igloo">Back to Igloo</BackToLink>
     </React.Fragment>
