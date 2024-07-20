@@ -35,6 +35,10 @@ export default function RootLayout({
             href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
             rel="stylesheet"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+            rel="stylesheet"
+          />
           {children}
         </body>
       </html>

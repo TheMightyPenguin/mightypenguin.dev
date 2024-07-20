@@ -7,6 +7,7 @@ import { SteamCurrentlyPlaying } from '@/components/SteamCurrentlyPlaying/SteamC
 import Text from '@/components/Text/Text';
 import dynamic from 'next/dynamic';
 import * as styles from './page.css';
+import Inline from '@/components/Inline/Inline';
 
 const ColorParallels = dynamic(
   () => import('@/canvas/colorParallels/Component'),
@@ -15,39 +16,36 @@ const ColorParallels = dynamic(
 
 export default function Home() {
   return (
-    <div>
+    <>
       <div className={styles.backgroundCanvas}>
         <ColorParallels width="full" height="full" />
       </div>
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          height: '100vh',
-          padding: 20,
-        }}
-      >
-        <Stack space="6x" xAlign="center">
-          <Stack space="1x" xAlign="center">
-            <div style={{ fontSize: '64px' }}>
-              <span role="img" aria-label="Penguin">
-                🐧
-              </span>
-            </div>
-
-            <Text
-              size="title"
-              style={{
-                position: 'relative',
-                fontFamily: "'Major Mono Display', monospace",
-                letterSpacing: '1px',
-              }}
-            >
-              TheMightyPenguin
-            </Text>
+      <div className={styles.mainContent}>
+        <Stack space="6x">
+          <Stack space="1x">
+            <Inline space="16px">
+              <div style={{ fontSize: '64px' }}>
+                <span role="img" aria-label="Penguin">
+                  🐧
+                </span>
+              </div>
+              <Stack space="16px">
+                <Text
+                  size="title"
+                  style={{
+                    position: 'relative',
+                    // fontFamily: "'Major Mono Display', monospace",
+                    fontFamily: '"Permanent Marker", cursive',
+                    fontWeight: 400,
+                    fontStyle: 'normal',
+                    // letterSpacing: '1px',
+                  }}
+                >
+                  TheMightyPenguin
+                </Text>
+                <Text>Victor Tortolero</Text>
+              </Stack>
+            </Inline>
           </Stack>
 
           <div
@@ -86,7 +84,8 @@ export default function Home() {
           <div
             style={{
               marginTop: '1.5rem',
-              fontFamily: "'Vollkorn', monospace",
+              fontFamily: '"Permanent Marker", cursive',
+              letterSpacing: '2px',
               fontSize: '20px',
               display: 'flex',
               alignItems: 'center',
@@ -94,7 +93,7 @@ export default function Home() {
           >
             <Link href="/igloo">
               <>
-                <span role="img">❄</span>
+                <span role="img">❄️</span>
                 igloo
               </>
             </Link>
@@ -105,6 +104,6 @@ export default function Home() {
         </Suspense>
         <Footer />
       </div>
-    </div>
+    </>
   );
 }

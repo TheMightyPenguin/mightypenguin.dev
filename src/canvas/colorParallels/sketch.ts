@@ -71,6 +71,7 @@ export const sketch = (sketchOptions: SketchOptions) => (p: p5) => {
     };
 
     function getColor() {
+      // TODO: try lerping the hue value instead and see how it looks
       const distanceToMouse = p.dist(p.mouseX, p.mouseY, center.x, center.y);
       let hue = !p.mouseIsPressed
         ? p.map(distanceToMouse, 0, state.colorDistance, 0, 360)

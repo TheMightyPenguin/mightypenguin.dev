@@ -5,3 +5,8 @@ export const backgroundCanvas = style({
   inset: 0,
   filter: 'blur(10px)',
 });
+
+export const mainContent = style({
+  position: 'relative',
+  padding: '32px',
+});
